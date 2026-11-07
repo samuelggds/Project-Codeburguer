@@ -2,14 +2,12 @@ export const CART_STORAGE_KEY = 'dev-burguer-cesta';
 export const MAX_QUANTITY = 99;
 export const PRODUCT_IDS = Object.freeze(['burger', 'waffles', 'pancakes', 'toast']);
 
-const isProductId = (id) => PRODUCT_IDS.includes(id);
-
 /** Discard unknown products, invalid quantities, and malformed saved values. */
-export function sanitizeCart(value) {
+export function sanitizeCart(value, productIds = PRODUCT_IDS) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
 
   return Object.fromEntries(
-    PRODUCT_IDS.flatMap((id) => {
+    productIds.flatMap((id) => {
       const quantity = Object.hasOwn(value, id) ? value[id] : undefined;
       return Number.isInteger(quantity) && quantity > 0 && quantity <= MAX_QUANTITY
         ? [[id, quantity]]
@@ -18,9 +16,9 @@ export function sanitizeCart(value) {
   );
 }
 
-export function cartReducer(state, action) {
-  if (action.type === 'replace') return sanitizeCart(action.cart);
-  if (!isProductId(action.productId)) return state;
+export function cartReducer(state, action, productIds = PRODUCT_IDS) {
+  if (action.type === 'replace') return sanitizeCart(action.cart, productIds);
+  if (!productIds.includes(action.productId)) return state;
 
   const current = state[action.productId] || 0;
   if (action.type === 'add') {
@@ -41,7 +39,7 @@ export function cartReducer(state, action) {
 
 /** Prices and totals stay in integer centavos, including repeated additions. */
 export function calculateCartTotals(quantities, products) {
-  const validated = sanitizeCart(quantities);
+  const validated = sanitizeCart(quantities, products.map((product) => product.id));
   return products.reduce(
     (totals, product) => {
       const quantity = validated[product.id] || 0;

@@ -7,9 +7,9 @@ import {
   sanitizeCart,
 } from '../lib/cart.js';
 
-function loadCart() {
+function loadCart(productIds) {
   try {
-    return sanitizeCart(JSON.parse(window.localStorage.getItem(CART_STORAGE_KEY) || '{}'));
+    return sanitizeCart(JSON.parse(window.localStorage.getItem(CART_STORAGE_KEY) || '{}'), productIds);
   } catch {
     // Private browsing, unavailable storage, or invalid JSON must not break the page.
     return {};
@@ -17,7 +17,12 @@ function loadCart() {
 }
 
 export function useCart(products) {
-  const [quantities, dispatch] = useReducer(cartReducer, undefined, loadCart);
+  const productIds = useMemo(() => products.map((product) => product.id), [products]);
+  const reduceCart = useCallback(
+    (state, action) => cartReducer(state, action, productIds),
+    [productIds],
+  );
+  const [quantities, dispatch] = useReducer(reduceCart, productIds, loadCart);
 
   useEffect(() => {
     try {
