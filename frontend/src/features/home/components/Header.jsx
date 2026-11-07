@@ -1,7 +1,7 @@
 import logo from '../../../assets/devburger-logo.png';
 import Icon from './Icon.jsx';
 
-export default function Header({ cartCount, user, onHome, onContact, onOrders, onLogout, onLogin }) {
+export default function Header({ cartCount, user, onHome, onContact, onOrders, onLogout, onLogin, variant = 'home', onMenu }) {
   const firstName = user?.name?.trim().split(/\s+/)[0] || 'Visitante';
   return (
     <header className="topbar">
@@ -10,8 +10,14 @@ export default function Header({ cartCount, user, onHome, onContact, onOrders, o
       </button>
       <nav className="navigation" aria-label="Navegação principal">
         <button type="button" data-action="home" onClick={onHome}>Home</button>
-        <button type="button" data-action="contact" onClick={onContact}>Contatos</button>
-        <button type="button" data-action="contact" onClick={onContact}>Contatos</button>
+        {variant === 'menu' ? (
+          <button type="button" data-action="menu" aria-current="page" onClick={onMenu}>Cardápio</button>
+        ) : (
+          <>
+            <button type="button" data-action="contact" onClick={onContact}>Contatos</button>
+            <button type="button" data-action="contact" onClick={onContact}>Contatos</button>
+          </>
+        )}
       </nav>
       <div className="account">
         <Icon name="user" />

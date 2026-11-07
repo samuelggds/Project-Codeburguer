@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { categories, products, productsById } from './data/catalog.js';
-import { useCart } from './hooks/useCart.js';
+import { useStorefront } from '../storefront/StorefrontContext.jsx';
 import { useToast } from './hooks/useToast.js';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
@@ -10,8 +10,8 @@ import CartDialog from './components/CartDialog.jsx';
 import InfoDialog from './components/InfoDialog.jsx';
 import Toast from './components/Toast.jsx';
 
-export default function HomePage({ user, onLogout, onLogin }) {
-  const cart = useCart(products);
+export default function HomePage({ user, onLogout, onLogin, onOpenMenu }) {
+  const { cart } = useStorefront();
   const { toast, notify } = useToast();
   const [cartOpen, setCartOpen] = useState(false);
   const [information, setInformation] = useState(null);
@@ -48,7 +48,7 @@ export default function HomePage({ user, onLogout, onLogin }) {
           <main>
             <Hero />
             <div className="catalog">
-              <Categories categories={categories} resetSignal={homeResetSignal} onSelectCategory={(category) => setInformation({ type: 'category', category })} />
+              <Categories categories={categories} resetSignal={homeResetSignal} onSelectCategory={onOpenMenu} />
               <Offers products={products} resetSignal={homeResetSignal} onAdd={handleAdd} />
             </div>
           </main>

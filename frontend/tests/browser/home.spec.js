@@ -42,7 +42,7 @@ test('existing login, registration and logout remain connected', async ({ page }
   expect(await page.evaluate(() => sessionStorage.getItem('devburger_user'))).toBeNull()
 })
 
-test('category carousel reveals focused cards and dialogs close with Escape', async ({ page }) => {
+test('category carousel reveals focused cards and opens the matching menu', async ({ page }) => {
   await page.goto('/')
   await page.locator('#categories-previous').click()
   await expect(page.locator('#categories-previous')).toBeDisabled()
@@ -51,10 +51,10 @@ test('category carousel reveals focused cards and dialogs close with Escape', as
   await page.locator('[data-category="burgers"]').focus()
   await expect(page.locator('#categories-previous')).toBeDisabled()
   await page.locator('[data-category="desserts"]').click()
-  await expect(page.locator('#info-dialog')).toBeVisible()
-  await expect(page.locator('#info-dialog')).toContainText('Panquecas')
-  await page.keyboard.press('Escape')
-  await expect(page.locator('#info-dialog')).not.toBeVisible()
+  await expect(page).toHaveURL(/\/cardapio\/sobremesas$/)
+  await expect(page.getByText('Em breve', { exact: true })).toBeVisible()
+  await page.locator('.navigation').getByRole('button', { name: 'Home', exact: true }).click()
+  await expect(page).toHaveURL(/\/$/)
   await page.locator('#offers-next').click()
   await expect(page.locator('.product').first()).toHaveAttribute('data-id', 'waffles')
 })

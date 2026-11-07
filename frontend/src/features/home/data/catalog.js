@@ -6,6 +6,7 @@ import burgerImage from '../assets/images/product-burger.png';
 import wafflesImage from '../assets/images/product-waffles.png';
 import pancakesImage from '../assets/images/product-pancakes.png';
 import toastImage from '../assets/images/product-toast.png';
+import { burgerMenuProducts } from '../../menu/data/burgers.js';
 
 export const products = [
   {
@@ -46,11 +47,14 @@ export const products = [
   },
 ];
 
-export const productsById = Object.fromEntries(products.map((product) => [product.id, product]));
+export const allProducts = [...products, ...burgerMenuProducts];
+export const productsById = Object.fromEntries(allProducts.map((product) => [product.id, product]));
 
 export const categories = [
   {
     id: 'burgers',
+    slug: 'hamburgueres',
+    menuName: 'Hambúrgueres',
     name: 'Hamburgueres',
     description: 'Hamburgueres, x-saladas e cachorros-quentes.',
     captionLines: ['Hamburgueres, x-saladas,', 'cachorros-quentes'],
@@ -62,6 +66,8 @@ export const categories = [
   },
   {
     id: 'drinks',
+    slug: 'bebidas',
+    menuName: 'Bebidas',
     name: 'Bebidas',
     description: 'Refrigerantes, sucos e vitaminas.',
     captionLines: ['Refrigerantes, Sucos, Vitaminas'],
@@ -73,6 +79,8 @@ export const categories = [
   },
   {
     id: 'desserts',
+    slug: 'sobremesas',
+    menuName: 'Sobremesas',
     name: 'Sobremesas',
     description: 'Panquecas e waffles.',
     captionLines: ['Panquecas e Waffles'],
@@ -84,6 +92,8 @@ export const categories = [
   },
   {
     id: 'starters',
+    slug: 'entradas',
+    menuName: 'Entradas',
     name: 'Entradas',
     description: 'Batata-frita e petisco.',
     captionLines: ['Batata-Frita e Petisco'],

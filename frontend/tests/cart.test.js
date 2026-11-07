@@ -31,3 +31,23 @@ test('money stays in integer cents across repeated additions and removals', () =
   assert.deepEqual(calculateCartTotals(cart, products), { count: 4, totalCents: 7060 })
   assert.equal(formatMoney(7060, { compact: true }), 'R$70,60')
 })
+
+test('menu products and existing home offers share validated saved quantities and totals', () => {
+  const catalog = [...products, { id: 'chicken-double', priceCents: 3590 }]
+  const productIds = catalog.map(product => product.id)
+  let cart = sanitizeCart(
+    JSON.parse('{"burger":1,"chicken-double":2,"unknown":5,"__proto__":99}'),
+    productIds,
+  )
+  assert.deepEqual(cart, { burger: 1, 'chicken-double': 2 })
+  assert.deepEqual(calculateCartTotals(cart, catalog), { count: 3, totalCents: 10770 })
+  cart = cartReducer(cart, { type: 'add', productId: 'chicken-double' }, productIds)
+  cart = cartReducer(cart, { type: 'remove', productId: 'burger' }, productIds)
+  assert.deepEqual(cart, { 'chicken-double': 3 })
+  assert.deepEqual(calculateCartTotals(cart, catalog), { count: 3, totalCents: 10770 })
+  assert.equal(cartReducer(cart, { type: 'add', productId: 'unknown' }, productIds), cart)
+  assert.deepEqual(
+    cartReducer(cart, { type: 'replace', cart: { 'chicken-double': 100, waffles: 2 } }, productIds),
+    { waffles: 2 },
+  )
+})

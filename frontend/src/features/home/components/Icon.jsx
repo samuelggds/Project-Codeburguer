@@ -5,6 +5,8 @@ const paths = {
   left: <path d="m16 5-9 9 9 9" />,
   right: <path d="m8 5 9 9-9 9" />,
   close: <path d="m6 6 12 12M6 18 18 6" />,
+  heart: <path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z" />,
+  star: <path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8l-6.2 3.3L7 14.2 2 9.3l6.9-1L12 2Z" />,
 };
 
 export default function Icon({ name }) {
