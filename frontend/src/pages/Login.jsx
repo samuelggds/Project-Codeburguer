@@ -12,13 +12,13 @@ export default function Login() {
   const { user, login } = useAuth()
   const [apiError, setApiError] = useState('')
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(loginSchema) })
-  if (user) return <Navigate to="/" replace />
+  if (user) return <Navigate to={user.admin === true ? '/admin/pedidos' : '/'} replace />
 
   const onSubmit = async (values) => {
     setApiError('')
     try {
-      await login(values)
-      navigate('/', { replace: true })
+      const loggedUser = await login(values)
+      navigate(loggedUser.admin === true ? '/admin/pedidos' : '/', { replace: true })
     } catch (error) {
       setApiError(getApiError(error))
     }
