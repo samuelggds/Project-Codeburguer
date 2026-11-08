@@ -11,7 +11,7 @@
 .dev-burguer-app .menu-page .brand { display:none; }
 .dev-burguer-app .menu-page .navigation { left:calc(93 * var(--m)); }
 .dev-burguer-app .menu-hero { width:100%; background:#101010; }
-.dev-burguer-app .menu-hero-inner { position:relative; width:100%; max-width:1440px; aspect-ratio:1440/415; margin-inline:auto; }
+.dev-burguer-app .menu-hero-inner { position:relative; width:100%; aspect-ratio:1440/415; }
 .dev-burguer-app .menu-hero-photo { display:block; width:100%; height:auto; }
 .dev-burguer-app .menu-hero-copy { position:absolute; left:55%; top:23%; width:26%; color:white; text-align:center; }
 .dev-burguer-app .menu-hero-copy h1 { margin:0; font-family:'Road Rage',Impact,sans-serif; font-size:calc(32 * var(--m)); font-weight:400; line-height:.82; }

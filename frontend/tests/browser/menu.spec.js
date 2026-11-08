@@ -137,7 +137,7 @@ test('menu renders the supplied local photos and keeps authentication connected'
 })
 
 for (const width of [320, 375, 1440, 1920, 3840]) {
-  test(`menu fills ${width}px without horizontal overflow or enlarged imagery`, async ({ page }) => {
+  test(`menu banner fills ${width}px without distortion or enlarged product photos`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 })
     await page.goto('/cardapio/hamburgueres')
     await page.evaluate(() => document.fonts.ready)
@@ -145,13 +145,17 @@ for (const width of [320, 375, 1440, 1920, 3840]) {
     const layout = await page.evaluate(() => {
       const desktop = document.querySelector('.desktop').getBoundingClientRect()
       const images = [...document.querySelectorAll('.dev-burguer-app img')]
+      const banner = document.querySelector('.menu-hero-photo').getBoundingClientRect()
       return {
         width: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth,
         x: desktop.x,
         contentWidth: desktop.width,
+        bannerX: banner.x,
+        bannerWidth: banner.width,
+        bannerRatio: banner.width / banner.height,
         broken: images.filter(image => !image.complete || !image.naturalWidth).map(image => image.alt),
-        enlarged: images.filter(image => {
+        enlarged: images.filter(image => !image.classList.contains('menu-hero-photo')).filter(image => {
           const bounds = image.getBoundingClientRect()
           return Math.min(bounds.width / image.naturalWidth, bounds.height / image.naturalHeight) > 1.005
         }).map(image => image.alt),
@@ -160,6 +164,9 @@ for (const width of [320, 375, 1440, 1920, 3840]) {
     expect(layout.scrollWidth).toBeLessThanOrEqual(layout.width)
     expect(layout.x).toBe(0)
     expect(layout.contentWidth).toBe(layout.width)
+    expect(layout.bannerX).toBe(0)
+    expect(layout.bannerWidth).toBe(layout.width)
+    expect(layout.bannerRatio).toBeCloseTo(1440 / 415, 2)
     expect(layout.broken).toEqual([])
     expect(layout.enlarged).toEqual([])
   })
