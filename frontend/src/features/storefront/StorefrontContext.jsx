@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { allProducts } from '../home/data/catalog.js';
 import { useCart } from '../home/hooks/useCart.js';
+import { useDemoCheckout } from '../checkout/useDemoCheckout.js';
 import { FAVORITES_STORAGE_KEY, sanitizeFavorites, toggleFavoriteId } from './favorites.js';
 
 const StorefrontContext = createContext(null);
@@ -19,6 +20,7 @@ function loadFavorites() {
 
 export function StorefrontProvider({ children }) {
   const cart = useCart(allProducts);
+  const checkout = useDemoCheckout();
   const [favorites, setFavorites] = useState(loadFavorites);
 
   useEffect(() => {
@@ -35,8 +37,8 @@ export function StorefrontProvider({ children }) {
   }, []);
 
   const value = useMemo(
-    () => ({ cart, isFavorite, toggleFavorite }),
-    [cart, isFavorite, toggleFavorite],
+    () => ({ cart, checkout, isFavorite, toggleFavorite }),
+    [cart, checkout, isFavorite, toggleFavorite],
   );
 
   return <StorefrontContext.Provider value={value}>{children}</StorefrontContext.Provider>;

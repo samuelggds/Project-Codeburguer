@@ -29,17 +29,19 @@ export const drinkMenuProducts = [
   {
     id: 'drink-milk', name: 'Bebidas lácteas', priceCents: 1200,
     description: 'Cremosidade irresistível dos nossos batidos lácteos, uma combinação perfeita de frescor e sabor único.',
-    photos: [drinkImages.chocolateMilk, drinkImages.hotChocolate],
+    photos: [drinkImages.hotChocolate, drinkImages.chocolateMilk],
+    photoLayout: 'front-left',
   },
   {
     id: 'drink-cocktails', name: 'Coquetéis', priceCents: 1500,
     description: 'Cada coquetel é uma explosão de sabores e uma experiência sensorial única.',
-    photos: [],
+    photos: [drinkImages.cocktailPink, drinkImages.cocktailRed],
+    photoLayout: 'front-left',
   },
   {
     id: 'drink-alcoholic', name: 'Bebidas alcoólicas', priceCents: 5000,
     description: 'Explore uma variedade de champanhes, vinhos e uísques para uma experiência sensorial completa.',
-    photos: [drinkImages.wine, drinkImages.whisky],
+    photos: [drinkImages.whisky, drinkImages.wine],
   },
   {
     id: 'drink-energy', name: 'Energético', priceCents: 900,

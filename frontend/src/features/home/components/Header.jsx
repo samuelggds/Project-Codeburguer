@@ -10,8 +10,8 @@ export default function Header({ cartCount, user, onHome, onContact, onOrders, o
       </button>
       <nav className="navigation" aria-label="Navegação principal">
         <button type="button" data-action="home" onClick={onHome}>Home</button>
-        {variant === 'menu' ? (
-          <button type="button" data-action="menu" aria-current="page" onClick={onMenu}>Cardápio</button>
+        {variant === 'menu' || variant === 'checkout' ? (
+          <button type="button" data-action="menu" aria-current={variant === 'menu' ? 'page' : undefined} onClick={onMenu}>Cardápio</button>
         ) : (
           <>
             <button type="button" data-action="contact" onClick={onContact}>Contatos</button>

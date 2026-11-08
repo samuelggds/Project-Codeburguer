@@ -34,6 +34,7 @@ export function useCart(products) {
 
   const addItem = useCallback((productId) => dispatch({ type: 'add', productId }), []);
   const removeItem = useCallback((productId) => dispatch({ type: 'remove', productId }), []);
+  const clear = useCallback(() => dispatch({ type: 'replace', cart: {} }), []);
   const totals = useMemo(() => calculateCartTotals(quantities, products), [quantities, products]);
   const items = useMemo(
     () => products.flatMap((product) => {
@@ -43,5 +44,5 @@ export function useCart(products) {
     [products, quantities],
   );
 
-  return { quantities, items, ...totals, addItem, removeItem, maxQuantity: MAX_QUANTITY };
+  return { quantities, items, ...totals, addItem, removeItem, clear, maxQuantity: MAX_QUANTITY };
 }

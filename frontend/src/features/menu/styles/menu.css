@@ -28,9 +28,18 @@
 .dev-burguer-app .menu-photo-gallery { top:calc(-29 * var(--m)); width:calc(90 * var(--m)); height:calc(60 * var(--m)); }
 .dev-burguer-app .menu-gallery-item { position:absolute; bottom:0; width:calc(70 * var(--m)); height:100%; display:flex; align-items:flex-end; justify-content:center; }
 .dev-burguer-app .menu-gallery-photo { display:block; width:100%; height:100%; object-fit:contain; object-position:center bottom; }
-.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item { width:72%; height:90%; }
-.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item:first-child { left:0; bottom:calc(5 * var(--m)); }
-.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item:last-child { right:0; }
+/* Paired cutouts overlap into one composition. Front/back order is explicit. */
+.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] { width:calc(80 * var(--m)); --photo-front-height:90%; --photo-back-height:85%; --photo-back-lift:calc(2 * var(--m)); }
+.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item { width:82%; }
+.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item:first-child { left:0; bottom:var(--photo-back-lift); height:var(--photo-back-height); z-index:1; }
+.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item:last-child { right:0; bottom:0; height:var(--photo-front-height); z-index:2; }
+.dev-burguer-app .menu-photo-gallery[data-photo-layout="front-left"] .menu-gallery-item:first-child { bottom:0; height:var(--photo-front-height); z-index:2; }
+.dev-burguer-app .menu-photo-gallery[data-photo-layout="front-left"] .menu-gallery-item:last-child { bottom:var(--photo-back-lift); height:var(--photo-back-height); z-index:1; }
+.dev-burguer-app .menu-product[data-id="drink-milk"] .menu-photo-gallery { width:calc(90 * var(--m)); --photo-front-height:100%; --photo-back-lift:calc(6 * var(--m)); }
+.dev-burguer-app .menu-product:is([data-id="drink-milk"],[data-id="drink-cocktails"]) .menu-gallery-item { width:72%; }
+.dev-burguer-app .menu-product[data-id="dessert-pies"] .menu-photo-gallery { --photo-back-lift:calc(8 * var(--m)); }
+/* The martini original has more transparent padding than the pink tumbler. */
+.dev-burguer-app .menu-product[data-id="drink-cocktails"] .menu-photo-gallery { top:calc(-39 * var(--m)); width:calc(90 * var(--m)); height:calc(70 * var(--m)); --photo-front-height:78%; --photo-back-height:95%; --photo-back-lift:0px; }
 .dev-burguer-app .menu-photo-placeholder { display:grid; place-items:center; width:78%; height:70%; border:1px dashed #cfbfd4; border-radius:12px; background:#f8f3fa; color:#79418a; font-size:calc(6 * var(--m)); text-align:center; }
 .dev-burguer-app .menu-favorite { position:absolute; top:calc(7 * var(--m)); right:calc(7 * var(--m)); width:calc(18 * var(--m)); height:calc(18 * var(--m)); display:grid; place-items:center; border:0; padding:0; background:transparent; color:var(--purple); }
 .dev-burguer-app .menu-favorite .icon { width:calc(10 * var(--m)); height:calc(10 * var(--m)); }
@@ -61,6 +70,9 @@
   .dev-burguer-app .menu-product-photo { width:112px; }
   .dev-burguer-app .menu-side-photo { width:65px; right:-5px; }
   .dev-burguer-app .menu-photo-gallery { top:-34px; width:130px; height:90px; }
+  .dev-burguer-app .menu-photo-gallery[data-photo-count="2"] { width:120px; }
+  .dev-burguer-app .menu-product:is([data-id="drink-milk"],[data-id="drink-cocktails"]) .menu-photo-gallery { width:130px; }
+  .dev-burguer-app .menu-product[data-id="drink-cocktails"] .menu-photo-gallery { top:-44px; height:100px; }
   .dev-burguer-app .menu-gallery-item { width:112px; }
   .dev-burguer-app .menu-photo-placeholder { font-size:11px; }
   .dev-burguer-app .menu-product h3 { font-size:13px; line-height:17px; min-height:34px; }

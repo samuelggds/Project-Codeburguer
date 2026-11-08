@@ -9,7 +9,8 @@ export const dessertMenuProducts = [
   {
     id: 'dessert-ice-cream', name: 'Sorvetes', priceCents: 1590,
     description: 'Feitos com ingredientes frescos e naturais, com combinações de ingredientes premium.',
-    photos: [dessertImages.iceCream, dessertImages.strawberryIceCream],
+    photos: [dessertImages.strawberryIceCream, dessertImages.iceCream],
+    photoLayout: 'front-left',
   },
   {
     id: 'dessert-pudding', name: 'Pudins', priceCents: 900,
@@ -29,7 +30,8 @@ export const dessertMenuProducts = [
   {
     id: 'dessert-pies', name: 'Tortas', priceCents: 2390,
     description: 'Crocantes por fora, cremosas por dentro. Variedades de recheios, de frutas frescas a mousses decadentes.',
-    photos: [dessertImages.berryCake, dessertImages.assortedPies],
+    photos: [dessertImages.assortedPies, dessertImages.berryCake],
+    photoLayout: 'front-left',
   },
   {
     id: 'dessert-traditional', name: 'Doces Tradicionais', priceCents: 490,

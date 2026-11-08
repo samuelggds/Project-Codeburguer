@@ -1,0 +1,102 @@
+/* Checkout follows the supplied desktop composition, with readable controls on smaller screens. */
+.dev-burguer-app .checkout-page { --c:clamp(.95px,calc(100cqw / 800),1.65px); }
+.dev-burguer-app .checkout-page .brand { display:none; }
+.dev-burguer-app .checkout-page .topbar { height:calc(39 * var(--c)); }
+.dev-burguer-app .checkout-page .navigation { left:16.5%; }
+.dev-burguer-app .checkout-page .navigation button { font-size:clamp(11px,calc(8 * var(--c)),14px); }
+.dev-burguer-app .checkout-banner { height:calc(107 * var(--c)); width:100%; display:grid; place-items:center; flex:none; position:relative; isolation:isolate; background:radial-gradient(ellipse at 50% 30%,#555,#242424 65%,#171717); }
+/* Blend the existing texture at native resolution, without enlarged pixels or tile seams. */
+.dev-burguer-app .checkout-banner::before { content:""; position:absolute; inset:0; z-index:-1; background:url("../../../assets/devburger-black-texture.webp") center 52% / 746px 798px no-repeat; mask-image:linear-gradient(90deg,transparent calc(50% - 373px),#000 calc(50% - 250px),#000 calc(50% + 250px),transparent calc(50% + 373px)); }
+.dev-burguer-app .checkout-banner::after { content:""; position:absolute; inset:0; z-index:-1; background:url("../../../assets/devburger-grain-overlay.svg") center / 768px 768px repeat; mix-blend-mode:soft-light; }
+.dev-burguer-app .checkout-banner img { width:calc(102 * var(--c)); height:calc(96 * var(--c)); object-fit:contain; }
+.dev-burguer-app .checkout-catalog { padding:calc(17 * var(--c)) 24px calc(65 * var(--c)); min-height:0; }
+.dev-burguer-app .checkout-catalog h1 { color:var(--green); font-size:clamp(21px,calc(18 * var(--c)),30px); line-height:1.35; font-weight:800; text-align:center; margin:0; }
+.dev-burguer-app .checkout-catalog h1:focus { outline:none; }
+.dev-burguer-app .checkout-catalog h1::after { content:""; display:block; width:calc(31 * var(--c)); height:2px; background:var(--green); margin:calc(8 * var(--c)) auto 0; }
+.dev-burguer-app .checkout-demo-note { margin:calc(10 * var(--c)) auto calc(22 * var(--c)); padding:7px 12px; width:fit-content; max-width:100%; border-radius:6px; background:#fffef8; color:#65406c; border:1px solid #ddc6e3; text-align:center; font-size:clamp(10px,calc(8 * var(--c)),13px); }
+.dev-burguer-app .checkout-columns { display:grid; grid-template-columns:minmax(0,465fr) minmax(0,200fr); gap:calc(15 * var(--c)); max-width:calc(680 * var(--c)); margin:auto; align-items:start; }
+.dev-burguer-app .checkout-cart-panel { min-height:calc(287 * var(--c)); background:#fff; border-radius:calc(10 * var(--c)); overflow:hidden; display:flex; flex-direction:column; }
+.dev-burguer-app .checkout-table { width:100%; border-collapse:collapse; font-size:clamp(11px,calc(10 * var(--c)),16px); text-align:left; }
+.dev-burguer-app .checkout-table thead { background:#333; color:#fff; }
+.dev-burguer-app .checkout-table th { font-weight:400; text-align:center; height:calc(28 * var(--c)); padding:8px 6px; }
+.dev-burguer-app .checkout-table td { padding:calc(13 * var(--c)) calc(6 * var(--c)); vertical-align:middle; }
+.dev-burguer-app .checkout-table td:first-child { width:48%; padding-left:calc(26 * var(--c)); }
+.dev-burguer-app .checkout-table td:last-child { padding-right:calc(18 * var(--c)); text-align:right; white-space:nowrap; }
+.dev-burguer-app .checkout-table td:nth-child(2) { white-space:nowrap; }
+.dev-burguer-app .checkout-cart-product { display:flex; align-items:center; gap:calc(12 * var(--c)); line-height:1.25; }
+.dev-burguer-app .checkout-cart-product > span { max-width:calc(114 * var(--c)); overflow-wrap:anywhere; }
+.dev-burguer-app .checkout-thumbnail { width:calc(72 * var(--c)); height:calc(70 * var(--c)); flex:none; background:#f5f5f5; border-radius:calc(10 * var(--c)); display:grid; place-items:center; padding:7px; }
+.dev-burguer-app .checkout-thumbnail img { width:auto; height:auto; max-width:100%; max-height:calc(56 * var(--c)); object-fit:contain; }
+.dev-burguer-app .checkout-quantity { display:flex; gap:calc(7 * var(--c)); justify-content:center; align-items:center; }
+.dev-burguer-app .checkout-quantity button { border:0; border-radius:3px; background:var(--purple); color:white; min-width:28px; min-height:28px; padding:0; line-height:1; }
+.dev-burguer-app .checkout-quantity button:disabled { opacity:.45; }
+.dev-burguer-app .checkout-link { color:#78388b; text-decoration:underline; background:none; border:0; padding:0; font-size:clamp(11px,calc(10 * var(--c)),16px); text-underline-offset:2px; }
+.dev-burguer-app .checkout-add-more { margin:auto calc(35 * var(--c)) calc(28 * var(--c)) auto; padding-top:calc(28 * var(--c)); text-align:right; }
+.dev-burguer-app .checkout-panel { background:#fff; border-radius:calc(12 * var(--c)); overflow:hidden; }
+.dev-burguer-app .checkout-panel h2 { margin:0; padding:calc(7 * var(--c)) 12px; background:#333; color:#fff; text-align:center; font-size:clamp(12px,calc(10 * var(--c)),16px); font-weight:400; line-height:1.4; }
+.dev-burguer-app .checkout-summary-column { display:flex; flex-direction:column; gap:calc(14 * var(--c)); }
+.dev-burguer-app .checkout-summary dl { margin:0; padding:calc(28 * var(--c)) calc(16 * var(--c)) calc(24 * var(--c)); font-size:clamp(12px,calc(10 * var(--c)),16px); }
+.dev-burguer-app .checkout-summary dl > div { display:flex; justify-content:space-between; gap:10px; margin-bottom:calc(19 * var(--c)); color:#858585; }
+.dev-burguer-app .checkout-summary dd { margin:0; white-space:nowrap; text-align:right; }
+.dev-burguer-app .checkout-summary dl > .checkout-total-line { margin:calc(75 * var(--c)) 0 0; align-items:baseline; color:#333; font-size:clamp(16px,calc(14 * var(--c)),23px); }
+.dev-burguer-app .checkout-total { font-weight:600; }
+.dev-burguer-app .checkout-primary { display:block; width:100%; background:var(--purple); color:#fff; border:0; border-radius:4px; text-align:center; padding:calc(9 * var(--c)) 14px; font-size:clamp(13px,calc(11 * var(--c)),18px); font-weight:700; text-decoration:none; }
+.dev-burguer-app .checkout-primary:hover { background:#824993; }
+.dev-burguer-app .checkout-payment-columns { display:grid; grid-template-columns:minmax(0,337fr) minmax(0,200fr); gap:calc(15 * var(--c)); max-width:calc(552 * var(--c)); margin:0 auto; align-items:start; }
+.dev-burguer-app .checkout-details-column { display:flex; flex-direction:column; gap:calc(20 * var(--c)); }
+.dev-burguer-app .checkout-address { padding:calc(20 * var(--c)) calc(34 * var(--c)); font-size:clamp(12px,calc(10 * var(--c)),16px); }
+.dev-burguer-app .checkout-address address { font-style:normal; font-weight:500; line-height:1.6; overflow-wrap:anywhere; }
+.dev-burguer-app .checkout-address p { margin:0 0 calc(8 * var(--c)); }
+.dev-burguer-app .checkout-address .checkout-link { margin-top:calc(10 * var(--c)); text-align:left; }
+.dev-burguer-app .checkout-payment-methods { display:flex; flex-direction:column; gap:calc(10 * var(--c)); border:0; margin:0; padding:calc(18 * var(--c)) calc(28 * var(--c)) 10px; font-size:clamp(13px,calc(10 * var(--c)),16px); }
+.dev-burguer-app .checkout-payment-methods label { display:flex; align-items:center; gap:10px; width:fit-content; cursor:pointer; }
+.dev-burguer-app .checkout-payment-methods input { accent-color:#0c9518; width:16px; height:16px; margin:0; }
+.dev-burguer-app .checkout-payment-note { color:#777; font-size:clamp(11px,calc(8 * var(--c)),13px); margin:0; padding:0 calc(28 * var(--c)) calc(18 * var(--c)); }
+.dev-burguer-app .checkout-payment-columns .checkout-summary dl > .checkout-total-line { margin-top:calc(24 * var(--c)); }
+.dev-burguer-app .checkout-review { display:block; width:fit-content; margin:calc(60 * var(--c)) calc(16 * var(--c)) calc(12 * var(--c)); }
+.dev-burguer-app .checkout-payment-columns .checkout-summary-column { gap:calc(28 * var(--c)); }
+.dev-burguer-app .checkout-address-form { padding:20px; }
+.dev-burguer-app .checkout-form-note { margin:0 0 16px; font-size:12px; color:#666; }
+.dev-burguer-app .checkout-address-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.dev-burguer-app .checkout-address-fields label { display:grid; gap:5px; font-size:12px; min-width:0; }
+.dev-burguer-app .checkout-address-fields label:first-child, .dev-burguer-app .checkout-address-fields label:nth-child(3) { grid-column:1 / -1; }
+.dev-burguer-app .checkout-address-fields input, .dev-burguer-app .checkout-address-fields select { width:100%; min-height:40px; min-width:0; padding:8px; border:1px solid #ccc; border-radius:5px; background:white; color:#333; font:inherit; }
+.dev-burguer-app .checkout-address-fields input:focus-visible, .dev-burguer-app .checkout-address-fields select:focus-visible { outline:2px solid var(--purple); outline-offset:2px; }
+.dev-burguer-app .checkout-form-actions { margin-top:20px; display:flex; align-items:center; gap:20px; }
+.dev-burguer-app .checkout-form-actions .checkout-primary { width:auto; font-size:13px; }
+.dev-burguer-app .checkout-error { color:#9b2525; font-size:13px; padding:12px; background:#fff1f1; border-radius:6px; margin:0; }
+.dev-burguer-app .checkout-empty { max-width:600px; margin:calc(55 * var(--c)) auto; text-align:center; padding:30px; border-radius:18px; background:#fff; }
+.dev-burguer-app .checkout-empty h2 { color:var(--purple); font-size:24px; margin:0 0 12px; }
+.dev-burguer-app .checkout-empty p { font-size:14px; margin:0 0 24px; }
+.dev-burguer-app .checkout-complete { text-align:center; margin:calc(55 * var(--c)) auto 0; max-width:800px; }
+.dev-burguer-app .checkout-success-icon { display:block; margin:0 auto; width:calc(60 * var(--c)); height:calc(60 * var(--c)); }
+.dev-burguer-app .checkout-complete h2 { color:var(--purple); font-size:calc(20 * var(--c)); margin:calc(16 * var(--c)) 0 calc(12 * var(--c)); }
+.dev-burguer-app .checkout-complete p { font-size:clamp(14px,calc(14 * var(--c)),23px); line-height:1.6; margin:0 auto; }
+.dev-burguer-app .checkout-complete .checkout-receipt { margin:18px 0 0; color:#666; font-size:14px; }
+.dev-burguer-app .checkout-complete .checkout-link { display:inline-block; margin-top:calc(46 * var(--c)); }
+@media (max-width:700px) {
+  .dev-burguer-app .checkout-page .topbar { height:66px; }
+  .dev-burguer-app .checkout-page .navigation { left:8px; top:40px; height:24px; }
+  .dev-burguer-app .checkout-page .account { top:10px; right:95px; }
+  .dev-burguer-app .checkout-page .orders { top:13px; right:18px; }
+  .dev-burguer-app .checkout-catalog { padding:24px 16px 40px; }
+  .dev-burguer-app .checkout-columns, .dev-burguer-app .checkout-payment-columns { grid-template-columns:minmax(0,1fr); width:100%; max-width:520px; gap:20px; }
+  .dev-burguer-app .checkout-summary dl > .checkout-total-line { margin-top:25px; }
+  .dev-burguer-app .checkout-review { margin-top:15px; }
+  .dev-burguer-app .checkout-primary { min-height:44px; }
+  .dev-burguer-app .checkout-cart-panel { min-height:0; }
+  .dev-burguer-app .checkout-table thead { display:none; }
+  .dev-burguer-app .checkout-table tbody, .dev-burguer-app .checkout-table tr { display:block; }
+  .dev-burguer-app .checkout-table tr { display:grid; grid-template-columns:1fr 1fr; padding:16px; gap:12px; border-bottom:1px solid #eee; }
+  .dev-burguer-app .checkout-table td, .dev-burguer-app .checkout-table td:first-child, .dev-burguer-app .checkout-table td:last-child { padding:0; width:auto; text-align:left; }
+  .dev-burguer-app .checkout-table td:first-child { grid-column:1 / -1; }
+  .dev-burguer-app .checkout-cart-product > span { max-width:none; font-size:14px; }
+  .dev-burguer-app .checkout-table td:nth-child(2) { align-self:center; font-size:13px; }
+  .dev-burguer-app .checkout-table td:nth-child(2)::before { content:"Preço: "; }
+  .dev-burguer-app .checkout-table td:last-child { grid-column:1 / -1; text-align:right; font-size:14px; font-weight:600; }
+  .dev-burguer-app .checkout-table td:last-child::before { content:"Total: "; }
+  .dev-burguer-app .checkout-quantity { justify-content:flex-end; gap:12px; }
+  .dev-burguer-app .checkout-quantity button { min-width:36px; min-height:36px; }
+  .dev-burguer-app .checkout-add-more { margin:20px; padding:0; }
+  .dev-burguer-app .checkout-complete { margin-top:40px; }
+}
