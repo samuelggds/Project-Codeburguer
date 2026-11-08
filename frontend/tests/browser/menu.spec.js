@@ -29,13 +29,7 @@ for (const category of categories) {
     await expect(page.locator('.menu-heading')).toContainText(category.title)
     await page.reload()
     await expect(page.locator('.menu-heading')).toContainText(category.title)
-    if (category.id === 'burgers') {
-      await expect(page.locator('.menu-product')).toHaveCount(9)
-    } else {
-      await expect(page.locator('.menu-product, .menu-add')).toHaveCount(0)
-      await expect(page.getByText('Em breve', { exact: true })).toBeVisible()
-      await expect(page.getByRole('link', { name: 'Ver hambúrgueres', exact: true })).toHaveAttribute('href', '/cardapio/hamburgueres')
-    }
+    await expect(page.locator('.menu-product')).toHaveCount(9)
     await page.locator('.menu-back').click()
     await expect(page).toHaveURL(/\/$/)
     await expect(page.getByRole('heading', { name: 'CATEGORIAS', exact: true })).toBeVisible()
