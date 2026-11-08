@@ -10,7 +10,7 @@ import CartDialog from './components/CartDialog.jsx';
 import InfoDialog from './components/InfoDialog.jsx';
 import Toast from './components/Toast.jsx';
 
-export default function HomePage({ user, onLogout, onLogin, onOpenMenu }) {
+export default function HomePage({ user, onLogout, onLogin, onOpenMenu, onMenu }) {
   const { cart } = useStorefront();
   const { toast, notify } = useToast();
   const [cartOpen, setCartOpen] = useState(false);
@@ -40,6 +40,7 @@ export default function HomePage({ user, onLogout, onLogin, onOpenMenu }) {
             cartCount={cart.count}
             user={user}
             onHome={handleHome}
+            onMenu={onMenu}
             onContact={() => setInformation({ type: 'contact' })}
             onOrders={() => setCartOpen(true)}
             onLogout={onLogout}
