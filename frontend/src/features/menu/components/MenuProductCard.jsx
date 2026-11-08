@@ -15,11 +15,22 @@ function ProductPhoto({ image, imageAlt, imageWidth, imageHeight, className }) {
 }
 
 export default function MenuProductCard({ product, favorite, onFavorite, onAdd }) {
+  const hasGallery = Array.isArray(product.photos);
   return (
     <article className="menu-product" data-id={product.id} aria-labelledby={`name-${product.id}`}>
-      <div className={`menu-photo-box${product.sideImage ? ' menu-photo-combo' : ''}`}>
-        <ProductPhoto {...product} className="menu-product-photo" />
-        {product.sideImage && <ProductPhoto {...product.sideImage} className="menu-side-photo" />}
+      <div className={`menu-photo-box${hasGallery ? ' menu-photo-gallery' : ''}${product.sideImage ? ' menu-photo-combo' : ''}`} data-photo-count={product.photos?.length}>
+        {hasGallery ? (
+          product.photos.length ? product.photos.map((photo, index) => (
+            <div className="menu-gallery-item" key={photo.image}>
+              <ProductPhoto {...photo} imageAlt={index === 0 ? product.name : ''} className="menu-gallery-photo" />
+            </div>
+          )) : <span className="menu-photo-placeholder">Imagem em breve</span>
+        ) : (
+          <>
+            <ProductPhoto {...product} className="menu-product-photo" />
+            {product.sideImage && <ProductPhoto {...product.sideImage} className="menu-side-photo" />}
+          </>
+        )}
       </div>
       <button
         className="menu-favorite"

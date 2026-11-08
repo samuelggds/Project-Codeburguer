@@ -9,7 +9,7 @@ import CartDialog from '../features/home/components/CartDialog.jsx';
 import Toast from '../features/home/components/Toast.jsx';
 import MenuHero from '../features/menu/components/MenuHero.jsx';
 import MenuProductCard from '../features/menu/components/MenuProductCard.jsx';
-import { burgerMenuProducts } from '../features/menu/data/burgers.js';
+import { menuSections } from '../features/menu/data/sections.js';
 import './Home.css';
 import '../features/menu/styles/menu.css';
 
@@ -22,15 +22,14 @@ export default function CategoryMenu() {
   const { toast, notify } = useToast();
   const [cartOpen, setCartOpen] = useState(false);
   const headingRef = useRef(null);
-  const isHamburgerMenu = category?.id === 'burgers';
-  const Heading = isHamburgerMenu ? 'h2' : 'h1';
+  const menuSection = menuSections[category?.id];
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
     setCartOpen(false);
   }, [categoria]);
 
-  if (!category) return <Navigate to="/" replace />;
+  if (!category || !menuSection) return <Navigate to="/" replace />;
 
   function handleAdd(product) {
     if ((cart.quantities[product.id] || 0) >= cart.maxQuantity) {
@@ -44,7 +43,7 @@ export default function CategoryMenu() {
   return (
     <div className="dev-burguer-app">
       <div className="desktop">
-        <div className="home menu-page">
+        <div className="home menu-page" data-menu-category={category.id}>
           <Header
             variant="menu"
             cartCount={cart.count}
@@ -56,30 +55,22 @@ export default function CategoryMenu() {
             onLogin={() => navigate('/login')}
           />
           <main>
-            {isHamburgerMenu && <MenuHero />}
+            <MenuHero />
             <section className="catalog menu-catalog" aria-labelledby="menu-heading">
-              <Heading className="menu-heading" id="menu-heading" ref={headingRef} tabIndex={-1}>
-                {category.menuName.toLocaleUpperCase('pt-BR')} - CARDÁPIO
-              </Heading>
-              {isHamburgerMenu ? (
-                <div className="menu-grid">
-                  {burgerMenuProducts.map((product) => (
-                    <MenuProductCard
-                      key={product.id}
-                      product={product}
-                      favorite={isFavorite(product.id)}
-                      onFavorite={() => toggleFavorite(product.id)}
-                      onAdd={() => handleAdd(product)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="menu-coming-soon">
-                  <h3>Em breve</h3>
-                  <p>O cardápio de {category.menuName.toLocaleLowerCase('pt-BR')} estará disponível em breve.</p>
-                  <Link to="/cardapio/hamburgueres">Ver hambúrgueres</Link>
-                </div>
-              )}
+              <h2 className="menu-heading" id="menu-heading" ref={headingRef} tabIndex={-1}>
+                {menuSection.heading}
+              </h2>
+              <div className="menu-grid">
+                {menuSection.products.map((product) => (
+                  <MenuProductCard
+                    key={product.id}
+                    product={product}
+                    favorite={isFavorite(product.id)}
+                    onFavorite={() => toggleFavorite(product.id)}
+                    onAdd={() => handleAdd(product)}
+                  />
+                ))}
+              </div>
               <Link className="menu-back" to="/">‹ Voltar</Link>
             </section>
           </main>

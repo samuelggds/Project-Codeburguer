@@ -25,6 +25,13 @@
 .dev-burguer-app .menu-photo-box { position:absolute; top:calc(-18 * var(--m)); left:50%; transform:translateX(-50%); width:calc(80 * var(--m)); height:calc(54 * var(--m)); display:flex; justify-content:center; align-items:center; pointer-events:none; }
 .dev-burguer-app .menu-product-photo { display:block; width:calc(70 * var(--m)); height:auto; object-fit:contain; }
 .dev-burguer-app .menu-side-photo { position:absolute; display:block; width:calc(41 * var(--m)); height:auto; right:calc(-7 * var(--m)); bottom:calc(-1 * var(--m)); }
+.dev-burguer-app .menu-photo-gallery { top:calc(-29 * var(--m)); width:calc(90 * var(--m)); height:calc(60 * var(--m)); }
+.dev-burguer-app .menu-gallery-item { position:absolute; bottom:0; width:calc(70 * var(--m)); height:100%; display:flex; align-items:flex-end; justify-content:center; }
+.dev-burguer-app .menu-gallery-photo { display:block; width:100%; height:100%; object-fit:contain; object-position:center bottom; }
+.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item { width:72%; height:90%; }
+.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item:first-child { left:0; bottom:calc(5 * var(--m)); }
+.dev-burguer-app .menu-photo-gallery[data-photo-count="2"] .menu-gallery-item:last-child { right:0; }
+.dev-burguer-app .menu-photo-placeholder { display:grid; place-items:center; width:78%; height:70%; border:1px dashed #cfbfd4; border-radius:12px; background:#f8f3fa; color:#79418a; font-size:calc(6 * var(--m)); text-align:center; }
 .dev-burguer-app .menu-favorite { position:absolute; top:calc(7 * var(--m)); right:calc(7 * var(--m)); width:calc(18 * var(--m)); height:calc(18 * var(--m)); display:grid; place-items:center; border:0; padding:0; background:transparent; color:var(--purple); }
 .dev-burguer-app .menu-favorite .icon { width:calc(10 * var(--m)); height:calc(10 * var(--m)); }
 .dev-burguer-app .menu-favorite[aria-pressed="true"] .icon { fill:currentColor; }
@@ -38,9 +45,6 @@
 .dev-burguer-app .menu-add .icon { width:calc(13 * var(--m)); height:calc(13 * var(--m)); }
 .dev-burguer-app .menu-add:hover { background:#844795; }
 .dev-burguer-app .menu-back { display:block; width:max-content; margin:calc(31 * var(--m)) auto 0; padding:6px 12px; color:#713c83; font-weight:600; font-size:calc(6 * var(--m)); text-decoration:none; }
-.dev-burguer-app .menu-coming-soon { width:min(90%,600px); margin:60px auto 0; padding:32px; background:white; border-radius:24px; text-align:center; }
-.dev-burguer-app .menu-coming-soon h3 { margin-top:0; color:var(--purple); }
-.dev-burguer-app .menu-coming-soon a { color:#713c83; font-weight:600; }
 
 @media (max-width:600px) {
   .dev-burguer-app .menu-page .topbar { height:68px; }
@@ -56,6 +60,9 @@
   .dev-burguer-app .menu-photo-box { width:120px; height:90px; top:-34px; }
   .dev-burguer-app .menu-product-photo { width:112px; }
   .dev-burguer-app .menu-side-photo { width:65px; right:-5px; }
+  .dev-burguer-app .menu-photo-gallery { top:-34px; width:130px; height:90px; }
+  .dev-burguer-app .menu-gallery-item { width:112px; }
+  .dev-burguer-app .menu-photo-placeholder { font-size:11px; }
   .dev-burguer-app .menu-product h3 { font-size:13px; line-height:17px; min-height:34px; }
   .dev-burguer-app .menu-description { font-size:11px; line-height:15px; }
   .dev-burguer-app .menu-price { font-size:14px; line-height:22px; }
@@ -64,7 +71,6 @@
   .dev-burguer-app .menu-add { width:38px; height:36px; }
   .dev-burguer-app .menu-add .icon { width:21px; height:21px; }
   .dev-burguer-app .menu-back { font-size:13px; margin-top:28px; }
-  .dev-burguer-app .menu-coming-soon { width:100%; margin-top:40px; padding:24px; }
 }
 @media (max-width:380px) {
   .dev-burguer-app .menu-grid { grid-template-columns:minmax(0,260px); justify-content:center; }

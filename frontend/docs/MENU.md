@@ -5,20 +5,28 @@ As categorias da home abrem suas próprias rotas:
 | Categoria | Rota | Conteúdo nesta entrega |
 | --- | --- | --- |
 | Hambúrgueres | /cardapio/hamburgueres | Banner, nove produtos, favoritos e cesta |
-| Bebidas | /cardapio/bebidas | Em breve |
-| Sobremesas | /cardapio/sobremesas | Em breve |
-| Entradas | /cardapio/entradas | Em breve |
+| Bebidas | /cardapio/bebidas | Nove produtos, favoritos e cesta |
+| Sobremesas | /cardapio/sobremesas | Nove produtos, favoritos e cesta |
+| Entradas | /cardapio/entradas | Nove produtos, favoritos e cesta |
 
 /cardapio redireciona para hambúrgueres. Uma categoria desconhecida retorna à home.
 
 ![Cardápio em desktop, largura de 1440px](menu-desktop.png)
 
+Prévias das novas categorias em 1440px:
+
+- [Bebidas](menu-bebidas-desktop.png)
+- [Sobremesas](menu-sobremesas-desktop.png)
+- [Entradas](menu-entradas-desktop.png)
+
 ## Conteúdo e imagens
 
 - Os arquivos PNG originais enviados ficam em src/features/menu/assets/images e foram preservados sem recortes ou recompressão.
 - O banner preenche 100% da largura disponível, inclusive acima de 1440px, mantendo a proporção de 1440 × 415 e a transparência original. Somente o banner acompanha a largura da tela; as fotos dos produtos continuam limitadas ao tamanho nativo.
-- Os nove cartões seguem os nomes e os preços da referência (R$35,90). Os dados ficam em src/features/menu/data/burgers.js.
+- Cada categoria tem nove cartões com nomes, descrições e preços das referências fornecidas. Os dados ficam em src/features/menu/data/burgers.js, drinks.js, desserts.js e starters.js. sections.js associa cada categoria ao seu título e aos seus produtos.
 - Foram recebidas oito fotos distintas de hambúrgueres, uma de nuggets e o banner. Os dois cartões chamados X-Tudo Duplo Frango usam a foto de frango recebida; o combo reúne as fotos do hambúrguer e dos nuggets em CSS.
+- As três novas categorias usam 36 PNGs originais (12 de bebidas, 13 de sobremesas e 11 de entradas). Arquivos repetidos foram deduplicados. Composições de dois alimentos ou bebidas usam imagens separadas, posicionadas em CSS e contidas no espaço reservado, sem ampliar os produtos.
+- A foto específica de Coquetéis não foi recebida. Esse cartão mantém nome, preço e ações, com “Imagem em breve” no lugar da foto. Para adicioná-la, basta preencher photos no registro drink-cocktails em drinks.js.
 - As estrelas indicam ausência de avaliações, sem notas fictícias.
 - A fonte Road Rage é servida localmente; origem: https://github.com/google/fonts/tree/main/ofl/roadrage. A licença SIL OFL acompanha o arquivo.
 

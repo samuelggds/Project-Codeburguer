@@ -6,7 +6,7 @@ import burgerImage from '../assets/images/product-burger.png';
 import wafflesImage from '../assets/images/product-waffles.png';
 import pancakesImage from '../assets/images/product-pancakes.png';
 import toastImage from '../assets/images/product-toast.png';
-import { burgerMenuProducts } from '../../menu/data/burgers.js';
+import { menuProducts } from '../../menu/data/sections.js';
 
 export const products = [
   {
@@ -47,7 +47,7 @@ export const products = [
   },
 ];
 
-export const allProducts = [...products, ...burgerMenuProducts];
+export const allProducts = [...products, ...menuProducts];
 export const productsById = Object.fromEntries(allProducts.map((product) => [product.id, product]));
 
 export const categories = [
