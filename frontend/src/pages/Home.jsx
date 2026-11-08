@@ -10,5 +10,5 @@ export default function Home() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [])
-  return <HomePage user={user} onLogout={logout} onLogin={() => navigate('/login')} onOpenMenu={(category) => navigate(`/cardapio/${category.slug}`)} />
+  return <HomePage user={user} onLogout={logout} onLogin={() => navigate('/login')} onMenu={() => navigate('/cardapio')} onOpenMenu={(category) => navigate(`/cardapio/${category.slug}`)} />
 }
