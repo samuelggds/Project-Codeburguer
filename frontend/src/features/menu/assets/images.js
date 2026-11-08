@@ -9,7 +9,7 @@ import houseBaconImage from './images/burger-house-bacon.png';
 import doubleSpicyImage from './images/burger-double-spicy.png';
 import bannerImage from './images/burger-banner.png';
 
-// Native dimensions of the user-supplied originals; keep rendered photos within these limits.
+// Native dimensions of the originals. Product photos stay capped; the banner fills the viewport.
 export const menuImages = {
   chicken: { image: chickenImage, imageWidth: 162, imageHeight: 124 },
   bacon: { image: baconImage, imageWidth: 141, imageHeight: 118 },
