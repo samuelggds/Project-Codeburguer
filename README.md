@@ -2,6 +2,8 @@
 
 Frontend React + Vite e backend Node.js + Express + Sequelize, com **PostgreSQL como unico banco de dados**.
 
+As telas do cardápio e do [checkout demonstrativo](frontend/docs/CHECKOUT.md) podem ser testadas executando apenas o frontend. O checkout simula endereço e escolha de pagamento, sem enviar pedidos nem realizar cobranças.
+
 ## Autenticacao
 
 - Cadastro: `POST /users` (tela `/register`).

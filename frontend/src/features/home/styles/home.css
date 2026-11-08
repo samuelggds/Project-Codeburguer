@@ -87,6 +87,7 @@
 .dev-burguer-app .quantity button { width:28px; height:28px; background:#f1e9f4; color:#79418a; border:0; border-radius:5px; }
 .dev-burguer-app .cart-total { display:flex; justify-content:space-between; margin-top:20px; font-weight:700; font-size:18px; }
 .dev-burguer-app .dialog-note { margin:16px 0 0; color:#666; font-size:12px; }
+.dev-burguer-app .cart-checkout-link { display:block; margin-top:18px; padding:12px; border-radius:6px; background:var(--purple); color:#fff; text-align:center; text-decoration:none; font-weight:600; }
 .dev-burguer-app .category-detail-photo { width:auto; height:auto; max-width:100%; display:block; margin:0 auto 16px; border-radius:8px; }
 .dev-burguer-app .details-products { margin:12px 0 0; padding:0; list-style:none; }
 .dev-burguer-app .details-products li { display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-top:1px solid #eee; }

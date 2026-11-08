@@ -10,6 +10,8 @@ import wineImage from './drinks/wine.png';
 import whiskyImage from './drinks/whisky.png';
 import energyShortImage from './drinks/energy-short.png';
 import energyTallImage from './drinks/energy-tall.png';
+import cocktailPinkImage from './drinks/cocktail-pink.png';
+import cocktailRedImage from './drinks/cocktail-red.png';
 
 // Native dimensions of the supplied originals; preserve their proportions and resolution.
 export const drinkImages = {
@@ -25,4 +27,6 @@ export const drinkImages = {
   whisky: { image: whiskyImage, imageWidth: 191, imageHeight: 254 },
   energyShort: { image: energyShortImage, imageWidth: 175, imageHeight: 265 },
   energyTall: { image: energyTallImage, imageWidth: 242, imageHeight: 294 },
+  cocktailPink: { image: cocktailPinkImage, imageWidth: 300, imageHeight: 287 },
+  cocktailRed: { image: cocktailRedImage, imageWidth: 169, imageHeight: 168 },
 };

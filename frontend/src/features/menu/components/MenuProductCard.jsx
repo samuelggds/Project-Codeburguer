@@ -18,7 +18,7 @@ export default function MenuProductCard({ product, favorite, onFavorite, onAdd }
   const hasGallery = Array.isArray(product.photos);
   return (
     <article className="menu-product" data-id={product.id} aria-labelledby={`name-${product.id}`}>
-      <div className={`menu-photo-box${hasGallery ? ' menu-photo-gallery' : ''}${product.sideImage ? ' menu-photo-combo' : ''}`} data-photo-count={product.photos?.length}>
+      <div className={`menu-photo-box${hasGallery ? ' menu-photo-gallery' : ''}${product.sideImage ? ' menu-photo-combo' : ''}`} data-photo-count={product.photos?.length} data-photo-layout={product.photoLayout}>
         {hasGallery ? (
           product.photos.length ? product.photos.map((photo, index) => (
             <div className="menu-gallery-item" key={photo.image}>

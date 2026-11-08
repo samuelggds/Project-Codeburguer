@@ -33,9 +33,11 @@ test('Bebidas opens from home with the nine reference names and prices', async (
     const card = page.locator(`.menu-product[data-id="${drink.id}"]`)
     await expect(card.locator('.menu-price')).toContainText(drink.price)
     await expect(card.locator('.menu-add')).toBeEnabled()
-    if (drink.id !== 'drink-cocktails') await expect(card.locator('.menu-photo-box img').first()).toBeVisible()
+    await expect(card.locator('.menu-photo-box img').first()).toBeVisible()
   }
   await expect(page.locator('.menu-hero')).toBeVisible()
+  await expect(page.locator('[data-id="drink-cocktails"] .menu-photo-box img')).toHaveCount(2)
+  await expect(page.locator('.menu-photo-placeholder')).toHaveCount(0)
   await expect(page.getByText('Em breve', { exact: true })).toHaveCount(0)
 })
 

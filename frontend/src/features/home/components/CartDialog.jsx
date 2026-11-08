@@ -1,5 +1,6 @@
 import { formatMoney } from '../lib/money.js';
 import Dialog from './Dialog.jsx';
+import { Link } from 'react-router-dom';
 
 export default function CartDialog({ open, onClose, cart }) {
   return (
@@ -22,6 +23,7 @@ export default function CartDialog({ open, onClose, cart }) {
       </div>
       <div className="cart-total"><span>Total</span><span id="cart-total" aria-live="polite">{formatMoney(cart.totalCents)}</span></div>
       <p className="dialog-note">Sua seleção fica salva neste navegador. Nenhum pedido é enviado.</p>
+      {cart.count > 0 && <Link className="cart-checkout-link" to="/carrinho" onClick={onClose}>Ver carrinho e continuar</Link>}
     </Dialog>
   );
 }
