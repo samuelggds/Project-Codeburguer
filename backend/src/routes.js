@@ -7,6 +7,8 @@ import multerConfig from "./config/multer";
 import authMiddleware from "./app/middlewares/auth";
 import CategoryController from "./app/controllers/CategoryController";
 import OrderController from "./app/controllers/OrderController";
+import adminMiddleware from "./app/middlewares/admin";
+import productUpload from "./app/middlewares/productUpload";
 
 const upload = multer(multerConfig);
 
@@ -18,16 +20,23 @@ routes.post("/login", LoginController.store);
 
 routes.use(authMiddleware);
 
-routes.post("/products", upload.single("file"), ProductsController.store);
-routes.get("/products", ProductsController.index);
-routes.put("/products/:id", upload.single("file"), ProductsController.update);
+routes.get("/admin/session", adminMiddleware, (request, response) => {
+  const { id, name, email } = request.adminUser;
+  return response.json({ id, name, email, admin: true });
+});
 
-routes.post("/categories", upload.single("file"), CategoryController.store);
+routes.post("/products", adminMiddleware, productUpload, ProductsController.store);
+routes.get("/products", ProductsController.index);
+routes.get("/products/:id", adminMiddleware, ProductsController.show);
+routes.put("/products/:id", adminMiddleware, productUpload, ProductsController.update);
+routes.delete("/products/:id", adminMiddleware, ProductsController.destroy);
+
+routes.post("/categories", adminMiddleware, upload.single("file"), CategoryController.store);
 routes.get("/categories", CategoryController.index);
-routes.put("/categories", CategoryController.update);
+routes.put("/categories", adminMiddleware, CategoryController.update);
 
 routes.post("/orders", OrderController.store);
-routes.put("/orders/:id", OrderController.update);
+routes.put("/orders/:id", adminMiddleware, OrderController.update);
 routes.get("/orders", OrderController.index);
 
 export default routes;

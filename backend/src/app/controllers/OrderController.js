@@ -13,6 +13,8 @@ const orderSchema = Yup.object().shape({
   ),
 });
 
+const ORDER_STATUSES = ["Pedido realizado", "Em preparação", "Pronto", "A caminho", "Entregue"];
+
 function serializeOrder(order) {
   const data = order.toJSON();
   return {
@@ -84,7 +86,7 @@ class OrderController {
   async update(request, response) {
     let payload;
     try {
-      payload = await Yup.object().shape({ status: Yup.string().trim().required() })
+      payload = await Yup.object().shape({ status: Yup.string().trim().oneOf(ORDER_STATUSES).required() })
         .validate(request.body, { abortEarly: false, stripUnknown: true });
     } catch (error) {
       return response.status(400).json({ error: error.errors });
@@ -92,6 +94,7 @@ class OrderController {
     try {
       const user = await User.findByPk(request.userId);
       if (!user?.admin) return response.status(403).json({ message: "Acesso restrito" });
+      if (!Yup.string().uuid().isValidSync(request.params.id)) return response.status(400).json({ error: "ID de pedido inválido" });
       const order = await Order.findByPk(request.params.id);
       if (!order) return response.status(404).json({ message: "Pedido não encontrado" });
       await order.update({ status: payload.status });

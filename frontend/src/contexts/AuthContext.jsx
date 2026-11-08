@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
 
   async function login(credentials) {
     const result = await authService.login(credentials)
-    const nextUser = { id: result.id, name: result.name, email: result.email, admin: Boolean(result.admin) }
+    const nextUser = { id: result.id, name: result.name, email: result.email, admin: result.admin === true }
     sessionStorage.setItem('devburger_token', result.token)
     sessionStorage.setItem('devburger_user', JSON.stringify(nextUser))
     setUser(nextUser)

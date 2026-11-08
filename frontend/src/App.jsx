@@ -6,6 +6,11 @@ import CategoryMenu from './pages/CategoryMenu'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import OrderComplete from './pages/OrderComplete'
+import AdminGuard from './features/admin/components/AdminGuard'
+import AdminLayout from './features/admin/components/AdminLayout'
+import AdminOrders from './features/admin/pages/AdminOrders'
+import AdminProducts from './features/admin/pages/AdminProducts'
+import AdminProductForm from './features/admin/pages/AdminProductForm'
 import { StorefrontProvider } from './features/storefront/StorefrontContext'
 
 export default function App() {
@@ -20,6 +25,16 @@ export default function App() {
         <Route path="/carrinho" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/pedido-concluido" element={<OrderComplete />} />
+        <Route element={<AdminGuard />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="pedidos" replace />} />
+            <Route path="pedidos" element={<AdminOrders />} />
+            <Route path="produtos" element={<AdminProducts />} />
+            <Route path="produtos/novo" element={<AdminProductForm />} />
+            <Route path="produtos/:id/editar" element={<AdminProductForm />} />
+            <Route path="*" element={<Navigate to="/admin/pedidos" replace />} />
+          </Route>
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </StorefrontProvider>

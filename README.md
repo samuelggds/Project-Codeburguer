@@ -4,6 +4,8 @@ Frontend React + Vite e backend Node.js + Express + Sequelize, com **PostgreSQL 
 
 As telas do cardápio e do [checkout demonstrativo](frontend/docs/CHECKOUT.md) podem ser testadas executando apenas o frontend. O checkout simula endereço e escolha de pagamento, sem enviar pedidos nem realizar cobranças.
 
+O [painel administrativo](frontend/docs/ADMIN.md) usa a API: login de administrador abre pedidos; clientes entram na home. Inclui alteração de status e CRUD de produtos com imagem, categoria e oferta. Aplique a nova migration de preços antes de usar o CRUD.
+
 ## Autenticacao
 
 - Cadastro: `POST /users` (tela `/register`).
@@ -18,7 +20,7 @@ As telas do cardápio e do [checkout demonstrativo](frontend/docs/CHECKOUT.md) p
 1. Instale Node.js 20.6+ e PostgreSQL. Crie o banco `codeburguer`.
 2. Na pasta `backend`: `npm install` e `npm run setup:env`.
 3. Configure `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` e `DB_NAME` no arquivo `backend/.env`.
-4. Execute `npx sequelize-cli db:migrate` e `npm run dev`. A API usa a porta 3001.
+4. Execute `node --env-file=.env ./node_modules/sequelize-cli/lib/sequelize db:migrate` e `npm run dev`. A API usa a porta 3001.
 5. Em outro terminal, na pasta `frontend`: `npm install` e `npm run dev`.
 6. Acesse `/register` para cadastrar um usuario e `/login` para entrar. O proxy Vite encaminha `/api` ao backend.
 
