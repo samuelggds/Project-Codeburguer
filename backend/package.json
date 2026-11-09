@@ -5,6 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "setup:env": "node scripts/setup-env.cjs",
+    "seed:catalog": "node --env-file=.env scripts/seed-catalog.cjs",
+    "test:catalog": "node --test scripts/seed-catalog.test.cjs",
     "predev": "npm run setup:env",
     "dev": "nodemon",
     "predebug": "npm run setup:env",
