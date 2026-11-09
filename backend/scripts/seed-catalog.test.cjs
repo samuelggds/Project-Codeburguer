@@ -304,7 +304,7 @@ test('adapter usa parâmetros, preços em reais e IDs retornados, sem forçar ID
   }, async () => { throw new Error('cleanup must not run on success'); });
   assert.equal(result, 830);
   const insert = queries.find(({ sql }) => sql.startsWith('INSERT INTO products'));
-  assert.deepEqual(insert.params, ["Chef's Burger", '29.90', 'image.png', true, 9]);
+  assert.deepEqual(insert.params, ["Chef's Burger", '29.90', 'image.png', true, 9, '']);
   assert.ok(!insert.sql.includes("Chef's Burger"));
   assert.ok(!insert.sql.includes('(id,'));
   assert.ok(queries.some(({ sql }) => sql === 'COMMIT'));

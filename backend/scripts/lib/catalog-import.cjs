@@ -1,6 +1,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
+const { createCategorySlug } = require('../../src/app/lib/categorySlug.cjs');
 
 const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 const MAX_PRICE_CENTS = 9_999_999_999;
@@ -26,6 +27,7 @@ function validateManifest(manifest) {
   const categoryKeys = new Set();
   const categoryNames = new Set();
   const productKeys = new Set();
+  const categorySlugs = new Set();
   function validateEntry(entry, keys, kind) {
     if (!entry || typeof entry.key !== 'string' || !/^[a-z0-9][a-z0-9_-]{0,179}$/.test(entry.key)) {
       throw new Error(`Chave inválida em ${kind}. Use letras minúsculas, números, hífen ou sublinhado (até 180 caracteres).`);
@@ -38,9 +40,18 @@ function validateManifest(manifest) {
     if (typeof entry.image !== 'string' || entry.image.length > 255 || !/^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(png|svg)$/.test(entry.image)) {
       throw new Error(`Imagem inválida em ${kind}:${entry.key}: informe somente o nome de um arquivo PNG ou SVG.`);
     }
+    if (entry.description !== undefined && (typeof entry.description !== 'string' || entry.description.length > (kind === 'category' ? 500 : 1000))) {
+      throw new Error(`Descrição inválida em ${kind}:${entry.key}.`);
+    }
   }
   for (const category of manifest.categories) {
     validateEntry(category, categoryKeys, 'category');
+    if (category.slug !== undefined) {
+      if (typeof category.slug !== 'string' || category.slug.length > 120 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(category.slug) || categorySlugs.has(category.slug)) {
+        throw new Error(`Slug de categoria inválido ou duplicado: ${category.key}.`);
+      }
+      categorySlugs.add(category.slug);
+    }
     const normalized = normalizeCategoryName(category.name);
     if (categoryNames.has(normalized)) throw new Error(`Nome de categoria duplicado: ${category.name}.`);
     categoryNames.add(normalized);
@@ -179,13 +190,17 @@ async function importCatalog({ catalog, repository, uploads }) {
     }
     for (const { entry, id } of plan.reusedCategories) await transaction.recordEntry(`category:${entry.key}`, id);
     for (const category of plan.newCategories) {
-      const id = await transaction.createCategory({ name: category.name, path: filenames.get(`category:${category.key}`) });
+      const id = await transaction.createCategory({
+        name: category.name, slug: category.slug || createCategorySlug(category.name),
+        description: category.description || '', path: filenames.get(`category:${category.key}`),
+      });
       plan.categoryIds.set(category.key, id);
       await transaction.recordEntry(`category:${category.key}`, id);
     }
     for (const product of plan.newProducts) {
       const id = await transaction.createProduct({
         name: product.name,
+        description: product.description || '',
         price: centsToPrice(product.priceCents),
         offer: product.offer,
         path: filenames.get(`product:${product.key}`),
@@ -206,11 +221,11 @@ function createPostgresRepository(client) {
       return { entries, categories, productIds };
     },
     async createCategory(category) {
-      const result = await client.query('INSERT INTO categories (name, path, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id', [category.name, category.path]);
+      const result = await client.query('INSERT INTO categories (name, path, slug, description, created_at, updated_at) VALUES ($1, $2, $3, $4, NOW(), NOW()) RETURNING id', [category.name, category.path, category.slug, category.description || '']);
       return result.rows[0].id;
     },
     async createProduct(product) {
-      const result = await client.query('INSERT INTO products (name, price, path, offer, category_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, NOW(), NOW()) RETURNING id', [product.name, product.price, product.path, product.offer, product.category_id]);
+      const result = await client.query('INSERT INTO products (name, price, path, offer, category_id, description, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW()) RETURNING id', [product.name, product.price, product.path, product.offer, product.category_id, product.description || '']);
       return result.rows[0].id;
     },
     async recordEntry(key, id) {

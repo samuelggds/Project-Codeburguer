@@ -5,6 +5,7 @@ class Products extends Model {
     super.init(
       {
         name: Sequelize.STRING,
+        description: Sequelize.TEXT,
         price: Sequelize.DECIMAL(10, 2),
         path: Sequelize.STRING,
         offer: Sequelize.BOOLEAN,

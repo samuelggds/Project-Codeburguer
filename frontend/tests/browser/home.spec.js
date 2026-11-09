@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test'
+import { mockCatalog } from './fixtures/catalog.js'
+
+test.beforeEach(async ({ page }) => {
+  await mockCatalog(page)
+})
 
 test('local imagery, exact products, cart totals and persistence', async ({ page }) => {
   const errors = []
@@ -53,7 +58,7 @@ test('category carousel reveals focused cards and opens the matching menu', asyn
   await page.locator('[data-category="desserts"]').click()
   await expect(page).toHaveURL(/\/cardapio\/sobremesas$/)
   await expect(page.locator('.menu-heading')).toContainText('SOBREMESAS')
-  await expect(page.locator('.menu-product')).toHaveCount(9)
+  await expect(page.locator('.menu-product')).toHaveCount(11)
   await page.locator('.navigation').getByRole('button', { name: 'Home', exact: true }).click()
   await expect(page).toHaveURL(/\/$/)
   await page.locator('#offers-next').click()
@@ -64,6 +69,7 @@ for (const width of [1440, 1920, 2560, 3840, 375, 320]) {
   test(`layout at ${width}px never enlarges photos or overflows`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 })
     await page.goto('/')
+    await expect(page.locator('.product')).toHaveCount(4)
     await page.evaluate(() => document.fonts.ready)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     const enlarged = await page.locator('.dev-burguer-app img').evaluateAll(images => images.flatMap(image => {
@@ -81,6 +87,7 @@ for (const width of [1440, 1920, 2560, 3840, 375, 320]) {
 test('home and catalog fill a tall viewport without a blank bottom strip', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 2200 })
   await page.goto('/')
+  await expect(page.locator('.product')).toHaveCount(4)
   const bounds = await page.evaluate(() => ({
     viewport: innerHeight,
     root: document.querySelector('.dev-burguer-app').getBoundingClientRect().height,

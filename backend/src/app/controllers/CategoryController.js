@@ -1,92 +1,95 @@
 import * as Yup from "yup";
 import Category from "../models/Category";
-import User from "../models/User";
+import { createCategorySlug } from "../lib/categorySlug.cjs";
+import { isSupportedImage, saveProductImage, discardNewProductImage } from "../lib/productImages";
+
+const fields = {
+  name: Yup.string().trim().min(2).max(120),
+  description: Yup.string().trim().max(500),
+};
+const createSchema = Yup.object({ name: fields.name.required(), description: fields.description.required() });
+const updateSchema = Yup.object(fields).test("nonempty", "Informe pelo menos um campo para atualizar", function (value) {
+  return this.options.context?.hasImage || Object.keys(value).length > 0;
+});
+
+function validId(value) {
+  return /^[1-9]\d*$/.test(String(value)) && Number.isSafeInteger(Number(value));
+}
+
+async function validatePayload(request, response, schema) {
+  try {
+    return await schema.validate(request.body, { abortEarly: false, stripUnknown: true, context: { hasImage: Boolean(request.file) } });
+  } catch (error) {
+    if (!(error instanceof Yup.ValidationError)) throw error;
+    response.status(400).json({ error: error.errors });
+    return null;
+  }
+}
+
+function writeError(error, response, operation) {
+  if (error.name === "SequelizeUniqueConstraintError") return response.status(409).json({ error: "Categoria já existente" });
+  console.error(`Erro ao ${operation} categoria`, error);
+  return response.status(500).json({ error: `Não foi possível ${operation} a categoria` });
+}
 
 class CategoryController {
   async store(request, response) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-    });
-
+    let path;
     try {
-      schema.validateSync(request.body, { abortEarly: false });
-    } catch (err) {
-      return response.status(400).json({ error: err.errors });
+      const data = await validatePayload(request, response, createSchema);
+      if (!data) return;
+      if (!request.file) return response.status(400).json({ error: "Selecione uma imagem para a categoria" });
+      if (!isSupportedImage(request.file)) return response.status(400).json({ error: "O arquivo não contém uma imagem PNG, JPEG ou WebP válida" });
+      path = await saveProductImage(request.file);
+      const category = await Category.create({ ...data, path, slug: createCategorySlug(data.name) });
+      return response.status(201).json(category);
+    } catch (error) {
+      await discardNewProductImage(path);
+      return writeError(error, response, "cadastrar");
     }
-
-    const { admin: isAdmin } = await User.findByPk(request.userId);
-
-    if (!isAdmin) {
-      return response.status(401).json({ message: "Não é Admin" });
-    }
-
-    const { name } = request.body;
-
-    const { filename: path } = request.file;
-
-    const catogoryExists = await Category.findOne({
-      where: { name },
-    });
-
-    if (catogoryExists) {
-      return response.json({ error: "Categoria já existente" });
-    }
-
-    const { id } = await Category.create({
-      name,
-      path,
-    });
-
-    return response.status(201).json({ id, name });
   }
 
   async index(request, response) {
-    const category = await Category.findAll();
+    try {
+      return response.json(await Category.findAll({ order: [["id", "ASC"]] }));
+    } catch (error) {
+      console.error("Erro ao listar categorias", error);
+      return response.status(500).json({ error: "Não foi possível listar as categorias" });
+    }
+  }
 
-    return response.json(category);
+  async show(request, response) {
+    try {
+      if (!validId(request.params.id)) return response.status(400).json({ error: "ID de categoria inválido" });
+      const category = await Category.findByPk(request.params.id);
+      if (!category) return response.status(404).json({ error: "Categoria não encontrada" });
+      return response.json(category);
+    } catch (error) {
+      console.error("Erro ao consultar categoria", error);
+      return response.status(500).json({ error: "Não foi possível consultar a categoria" });
+    }
   }
 
   async update(request, response) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-    });
-
-    try {
-      schema.validateSync(request.body, { abortEarly: false });
-    } catch (err) {
-      return response.status(400).json({ error: err.errors });
-    }
-
-    const { admin: isAdmin } = await User.findByPk(request.userId);
-
-    if (!isAdmin) {
-      return response.status(401).json({ message: "Não é Admin" });
-    }
-
-    const { name } = request.body;
-
-    const { id } = request.params;
-
-    const category = await Category.findByPk(id);
-
-    if (!category) {
-      return response.status(401).json({ message: "ID incorreto" });
-    }
-
     let path;
-    if (request.file) {
-      path = request.file.filename;
+    try {
+      if (!validId(request.params.id)) return response.status(400).json({ error: "ID de categoria inválido" });
+      const category = await Category.findByPk(request.params.id);
+      if (!category) return response.status(404).json({ error: "Categoria não encontrada" });
+      const data = await validatePayload(request, response, updateSchema);
+      if (!data) return;
+      if (request.file) {
+        if (!isSupportedImage(request.file)) return response.status(400).json({ error: "O arquivo não contém uma imagem PNG, JPEG ou WebP válida" });
+        path = await saveProductImage(request.file);
+        data.path = path;
+      }
+      // The slug remains unchanged after renaming, so shared menu links stay valid.
+      await category.update(data);
+      return response.json(category);
+    } catch (error) {
+      await discardNewProductImage(path);
+      return writeError(error, response, "atualizar");
     }
-
-    await Category.update(
-      {
-        name,
-        path,
-      },
-      { where: { id } }
-    );
-
-    return response.status(200).json({ name, path });
   }
 }
 

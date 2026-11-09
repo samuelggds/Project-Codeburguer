@@ -1,8 +1,14 @@
 import { test, expect } from '@playwright/test'
+import { mockCatalog, categoryProducts } from './fixtures/catalog.js'
+
+test.beforeEach(async ({ page }) => {
+  await mockCatalog(page)
+})
 
 const categories = [
   {
     slug: 'sobremesas',
+    id: 'desserts',
     title: 'CARDÁPIO - SOBREMESAS',
     products: [
       { id: 'dessert-cakes', name: 'Bolos', price: '15,00' },
@@ -18,6 +24,7 @@ const categories = [
   },
   {
     slug: 'entradas',
+    id: 'starters',
     title: 'CARDÁPIO - ENTRADAS',
     products: [
       { id: 'starter-salad', name: 'Saladas', price: '9,00' },
@@ -46,10 +53,10 @@ async function openCategory(page, id, slug) {
 }
 
 for (const category of categories) {
-  test(`${category.slug} renders all nine reference names and prices`, async ({ page }) => {
+  test(`${category.slug} renders all API names and prices, including offers`, async ({ page }) => {
     await page.goto('/cardapio/' + category.slug)
     await expect(page.locator('.menu-heading')).toHaveText(category.title)
-    await expect(page.locator('.menu-product h3')).toHaveText(category.products.map(product => product.name))
+    await expect(page.locator('.menu-product h3')).toHaveText(categoryProducts(category.id).map(product => product.name))
     for (const product of category.products) {
       const card = page.locator(`.menu-product[data-id="${product.id}"]`)
       await expect(card.locator('.menu-price')).toContainText(product.price)
@@ -65,7 +72,7 @@ for (const category of categories) {
       await page.setViewportSize({ width, height: 1000 })
       await page.goto('/cardapio/' + category.slug)
       await page.evaluate(() => document.fonts.ready)
-      await expect(page.locator('.menu-product')).toHaveCount(9)
+      await expect(page.locator('.menu-product')).toHaveCount(categoryProducts(category.id).length)
       await expect.poll(() => page.locator('.menu-photo-box img').evaluateAll(images =>
         images.every(image => image.complete && image.naturalWidth > 0),
       )).toBe(true)
@@ -127,7 +134,7 @@ test('three new categories share cart totals and favorite preferences after relo
 test('category background fills the bottom of a tall window', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 3000 })
   await page.goto('/cardapio/sobremesas')
-  await expect(page.locator('.menu-product')).toHaveCount(9)
+  await expect(page.locator('.menu-product')).toHaveCount(11)
   const bounds = await page.evaluate(() => ({
     viewport: innerHeight,
     pageHeight: document.querySelector('.menu-page').getBoundingClientRect().height,

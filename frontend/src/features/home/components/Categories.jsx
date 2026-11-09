@@ -1,9 +1,10 @@
 import { Fragment } from 'react';
 import { useCategoryCarousel } from '../hooks/useCategoryCarousel.js';
 import Icon from './Icon.jsx';
+import CatalogImage from '../../storefront/CatalogImage.jsx';
 
 export default function Categories({ categories, resetSignal, onSelectCategory }) {
-  const carousel = useCategoryCarousel(resetSignal);
+  const carousel = useCategoryCarousel(resetSignal, categories.length);
 
   function handleCardKeyDown(event, index) {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
@@ -16,8 +17,9 @@ export default function Categories({ categories, resetSignal, onSelectCategory }
   return (
     <section className="categories" aria-labelledby="categories-heading">
       <h2 className="section-heading" id="categories-heading">CATEGORIAS</h2>
+      {!categories.length && <p className="catalog-empty">Nenhuma categoria disponível no momento.</p>}
       <div className="category-carousel" role="region" aria-roledescription="carrossel" aria-label="Categorias do cardápio">
-        <button type="button" className="arrow previous" id="categories-previous" aria-label="Categorias anteriores" aria-controls="category-track" disabled={carousel.previousDisabled} onClick={() => carousel.move(-1)}>
+        <button type="button" className="arrow previous" id="categories-previous" aria-label="Categorias anteriores" aria-controls="category-track" disabled={!categories.length || carousel.previousDisabled} onClick={() => carousel.move(-1)}>
           <Icon name="left" />
         </button>
         <div className="category-window" id="category-window" ref={carousel.viewportRef}>
@@ -33,7 +35,7 @@ export default function Categories({ categories, resetSignal, onSelectCategory }
                 onFocus={(event) => carousel.reveal(event.currentTarget)}
                 onKeyDown={(event) => handleCardKeyDown(event, index)}
               >
-                <img className="category-photo" src={category.image} width={category.imageWidth} height={category.imageHeight} alt="" />
+                <CatalogImage className="category-photo" src={category.image} width={category.imageWidth} height={category.imageHeight} alt="" />
                 <span className="category-copy">
                   <span className="category-title">{category.name}</span>
                   <span className="category-description">
@@ -46,7 +48,7 @@ export default function Categories({ categories, resetSignal, onSelectCategory }
             ))}
           </div>
         </div>
-        <button type="button" className="arrow next" id="categories-next" aria-label="Próximas categorias" aria-controls="category-track" disabled={carousel.nextDisabled} onClick={() => carousel.move(1)}>
+        <button type="button" className="arrow next" id="categories-next" aria-label="Próximas categorias" aria-controls="category-track" disabled={!categories.length || carousel.nextDisabled} onClick={() => carousel.move(1)}>
           <Icon name="right" />
         </button>
       </div>

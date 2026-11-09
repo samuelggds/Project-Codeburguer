@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { mockCatalog } from './fixtures/catalog.js'
 
 const transparentPng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aFWQAAAAASUVORK5CYII=', 'base64')
 const admin = { id: 'admin-1', name: 'Admin Teste', email: 'admin@example.com', admin: true }
@@ -20,6 +21,7 @@ function payload(request) {
 }
 
 async function mockAdminApi(page, options = {}) {
+  await mockCatalog(page)
   const state = {
     products: structuredClone(initialProducts),
     orders: structuredClone(initialOrders),
@@ -35,6 +37,7 @@ async function mockAdminApi(page, options = {}) {
     const path = new URL(request.url()).pathname.replace(/^\/api/, '')
     const method = request.method()
     const respond = (data, status = 200) => route.fulfill({ status, json: data })
+    if (path === '/catalog' || path.startsWith('/category-file/')) return route.fallback()
     if (path.startsWith('/product-file/')) return route.fulfill({ contentType: 'image/png', body: transparentPng })
     if (path === '/login' && method === 'POST') return respond({ ...(state.loginUser || admin), token: 'test-only-admin-token' })
     if (path === '/admin/session') {

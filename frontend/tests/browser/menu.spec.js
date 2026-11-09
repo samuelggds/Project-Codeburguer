@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test'
+import { mockCatalog, categoryProducts } from './fixtures/catalog.js'
+
+test.beforeEach(async ({ page }) => {
+  await mockCatalog(page)
+})
 
 const categories = [
   { id: 'burgers', slug: 'hamburgueres', title: 'HAMBÚRGUERES' },
@@ -29,7 +34,7 @@ for (const category of categories) {
     await expect(page.locator('.menu-heading')).toContainText(category.title)
     await page.reload()
     await expect(page.locator('.menu-heading')).toContainText(category.title)
-    await expect(page.locator('.menu-product')).toHaveCount(9)
+    await expect(page.locator('.menu-product')).toHaveCount(categoryProducts(category.id).length)
     await page.locator('.menu-back').click()
     await expect(page).toHaveURL(/\/$/)
     await expect(page.getByRole('heading', { name: 'CATEGORIAS', exact: true })).toBeVisible()
@@ -94,7 +99,7 @@ test('cart and favorites survive SPA navigation when localStorage is unavailable
 test('menu entry point and unknown category redirect to their intended destinations', async ({ page }) => {
   await page.goto('/cardapio')
   await expect(page).toHaveURL(/\/cardapio\/hamburgueres$/)
-  await expect(page.locator('.menu-product')).toHaveCount(9)
+  await expect(page.locator('.menu-product')).toHaveCount(11)
   await page.goto('/cardapio/categoria-inexistente')
   await expect(page).toHaveURL(/\/$/)
   await expect(page.getByRole('heading', { name: 'CATEGORIAS', exact: true })).toBeVisible()
@@ -111,8 +116,10 @@ test('menu renders the supplied local photos and keeps authentication connected'
   }
   page.on('console', checkConsole)
   await page.goto('/cardapio/hamburgueres')
-  await expect(page.locator('.menu-price')).toHaveCount(9)
-  for (const price of await page.locator('.menu-price').all()) await expect(price).toContainText('35,90')
+  await expect(page.locator('.menu-price')).toHaveCount(11)
+  for (const product of categoryProducts('burgers')) {
+    await expect(page.locator(`.menu-product[data-id="${product.sourceKey}"] .menu-price`)).toContainText(Number(product.price).toFixed(2).replace('.', ','))
+  }
   expect(await page.locator('.menu-hero img, .menu-photo-box img').evaluateAll(images =>
     images.every(image => image.complete && image.naturalWidth > 0 && new URL(image.src).origin === location.origin),
   )).toBe(true)
@@ -135,7 +142,7 @@ for (const width of [320, 375, 1440, 1920, 3840]) {
     await page.setViewportSize({ width, height: 1000 })
     await page.goto('/cardapio/hamburgueres')
     await page.evaluate(() => document.fonts.ready)
-    await expect(page.locator('.menu-product')).toHaveCount(9)
+    await expect(page.locator('.menu-product')).toHaveCount(11)
     const layout = await page.evaluate(() => {
       const desktop = document.querySelector('.desktop').getBoundingClientRect()
       const images = [...document.querySelectorAll('.dev-burguer-app img')]

@@ -1,11 +1,11 @@
 .admin-shell, .admin-access { --admin-purple:#9758a6; --admin-dark:#353535; color-scheme:light; color:#333; font-family:Poppins,Arial,sans-serif; }
 .admin-shell, .admin-shell *, .admin-access, .admin-access * { box-sizing:border-box; }
 .admin-shell { min-height:100vh; min-height:100dvh; display:grid; grid-template-columns:clamp(182px,22.2vw,300px) minmax(0,1fr); background:#f0f0f0; }
-.admin-shell button, .admin-shell input, .admin-shell select { font:inherit; }
-.admin-shell button, .admin-shell a, .admin-shell label[for="admin-product-image"] { -webkit-tap-highlight-color:transparent; }
+.admin-shell button, .admin-shell input, .admin-shell select, .admin-shell textarea { font:inherit; }
+.admin-shell button, .admin-shell a, .admin-shell .admin-upload-button { -webkit-tap-highlight-color:transparent; }
 .admin-shell button { cursor:pointer; }
 .admin-shell button:disabled { cursor:default; opacity:.55; }
-.admin-shell a:focus-visible, .admin-shell button:focus-visible, .admin-shell input:focus-visible, .admin-shell select:focus-visible { outline:3px solid #ffb44b; outline-offset:3px; }
+.admin-shell a:focus-visible, .admin-shell button:focus-visible, .admin-shell input:focus-visible, .admin-shell select:focus-visible, .admin-shell textarea:focus-visible { outline:3px solid #ffb44b; outline-offset:3px; }
 .admin-shell [hidden] { display:none !important; }
 .admin-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 .admin-sidebar { background:var(--admin-dark); color:white; display:flex; flex-direction:column; min-height:100dvh; position:sticky; top:0; height:100dvh; overflow-y:auto; }
@@ -42,6 +42,11 @@
 .admin-secondary { background:#eee; color:#333; }
 .admin-danger { background:#a73342; }
 .admin-product-thumbnail { display:block; width:auto; height:auto; max-width:84px; max-height:62px; margin:auto; object-fit:contain; }
+.admin-category-thumbnail { display:block; width:84px; height:62px; margin:auto; object-fit:contain; }
+.admin-categories-table th:first-child, .admin-categories-table td:first-child, .admin-categories-table th:last-child, .admin-categories-table td:last-child { text-align:center; }
+.admin-categories-table td:nth-child(2) { width:24%; overflow-wrap:anywhere; }
+.admin-categories-table td:nth-child(3) { max-width:450px; overflow-wrap:anywhere; white-space:pre-wrap; }
+.admin-catalog-note { margin:0 0 18px; color:#666; font-size:12px; line-height:1.6; }
 .admin-products-table input[type="checkbox"] { width:17px; height:17px; accent-color:#159a31; cursor:pointer; }
 .admin-icon-button { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; color:#222; border:0; background:transparent; border-radius:5px; padding:5px; }
 .admin-icon-button:hover { background:#f1e7f4; color:#9758a6; }
@@ -75,9 +80,14 @@
 .admin-product-editor { width:100%; }
 .admin-product-form { width:min(100%,440px); margin:26px auto 0; background:var(--admin-dark); color:#fff; border-radius:8px; padding:40px; box-shadow:0 1px 9px #0005; display:flex; flex-direction:column; }
 .admin-product-form > label { font-size:14px; margin:0 0 10px; }
-.admin-product-form > input, .admin-product-form > select { min-height:48px; width:100%; border:1px solid #ddd; border-radius:4px; background:#fff; color:#333; padding:10px 14px; margin-bottom:28px; }
-.admin-product-form > input[aria-invalid="true"], .admin-product-form > select[aria-invalid="true"] { border-color:#ffacac; margin-bottom:5px; }
+.admin-product-form > input, .admin-product-form > select, .admin-product-form > textarea { min-height:48px; width:100%; border:1px solid #ddd; border-radius:4px; background:#fff; color:#333; padding:10px 14px; margin-bottom:28px; }
+.admin-product-form > textarea { resize:vertical; line-height:1.6; }
+.admin-product-form > input[aria-invalid="true"], .admin-product-form > select[aria-invalid="true"], .admin-product-form > textarea[aria-invalid="true"] { border-color:#ffacac; margin-bottom:5px; }
 .admin-product-form .admin-field-error { color:#ffc7c7; font-size:12px; line-height:1.5; margin:0 0 18px; }
+.admin-form-help { margin:-18px 0 28px; color:#ccc; font-size:11px; line-height:1.6; }
+.admin-field-error + .admin-form-help { margin-top:0; }
+.admin-label-optional { color:#ccc; font-size:11px; }
+.admin-form-link { color:inherit; text-underline-offset:3px; }
 .admin-product-upload { position:relative; margin:0 0 28px; }
 .admin-upload-button { display:flex; align-items:center; justify-content:center; gap:9px; width:100%; min-height:46px; border:1px dashed #999; color:#fff; padding:10px; font-size:12px; cursor:pointer; }
 .admin-upload-button svg { width:18px; height:18px; flex:none; }
@@ -131,6 +141,7 @@
   .admin-table th { font-size:10px; }
   .admin-orders-table { min-width:510px; }
   .admin-products-table { min-width:620px; }
+  .admin-categories-table { min-width:510px; }
   .admin-order-tabs { gap:3px; }
   .admin-order-tabs button { font-size:12px; padding:6px 14px; }
   .admin-product-form { margin:0 auto; padding:26px; }

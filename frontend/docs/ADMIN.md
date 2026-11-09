@@ -8,7 +8,7 @@ O painel usa a API e os registros do PostgreSQL. O visual segue as referências 
 - Login de cliente abre /.
 - Visitante sem sessão é enviado a /login; cliente que digita uma rota /admin retorna à home.
 - O painel verifica GET /admin/session antes de carregar o conteúdo. A API consulta o papel atual no banco; alterar sessionStorage ou incluir admin no JWT não concede permissão.
-- Todas as alterações de produtos, uploads e status exigem administrador no servidor. Cadastro público continua criando apenas clientes.
+- Todas as alterações de produtos, categorias, uploads e status exigem administrador no servidor. Cadastro público continua criando apenas clientes.
 - Sair remove a sessão e retorna ao login.
 
 Use uma conta existente cujo campo users.admin seja true, provisionada pelo responsável pelo banco. Este PR não cria credenciais padrão nem promove contas automaticamente.
@@ -19,14 +19,21 @@ Use uma conta existente cujo campo users.admin seja true, provisionada pelo resp
 | --- | --- |
 | /admin/pedidos | Todos, Em preparo e Entregues; ordenação; detalhes dos itens; mudança de status |
 | /admin/produtos | Busca por nome, preço em reais, foto, oferta, edição e exclusão com confirmação |
-| /admin/produtos/novo | Nome, preço, imagem, categoria e oferta |
+| /admin/produtos/novo | Nome, descrição opcional, preço, imagem, categoria e oferta |
 | /admin/produtos/:id/editar | Alteração dos campos e troca opcional da imagem |
+| /admin/categorias | Busca por nome, imagem, nome, descrição e edição |
+| /admin/categorias/novo | Nome, descrição e imagem da categoria |
+| /admin/categorias/:id/editar | Alteração do nome e da descrição, com troca opcional da imagem |
 
 Estados aceitos: Pedido realizado, Em preparação, Pronto, A caminho e Entregue. O filtro Em preparo reúne os pedidos ainda não entregues. A mudança só aparece como salva após confirmação da API; erros mantêm o valor anterior.
 
-Uploads de produtos aceitam PNG, JPEG e WebP, até 5 MB. A API verifica extensão, MIME e assinatura do arquivo. No cadastro a imagem é obrigatória; na edição, a foto atual é preservada sem novo arquivo. A exclusão remove o produto do catálogo do banco, preservando os snapshots e imagens de pedidos anteriores.
+Uploads de produtos e categorias aceitam PNG, JPEG e WebP, até 5 MB. A API verifica extensão, MIME e assinatura do arquivo. No cadastro a imagem é obrigatória; na edição, a foto atual é preservada sem novo arquivo. A exclusão de um produto o remove da vitrine e do catálogo do banco, preservando os snapshots e imagens de pedidos anteriores. A administração de categorias permite cadastro e edição, sem exclusão.
 
-As categorias do seletor vêm de GET /categories e precisam existir no banco. Para cadastrar as quatro categorias e os 40 produtos da home e dos cardápios, aplique as migrations e execute `npm run seed:catalog` na pasta `backend`. Veja as [instruções da importação](../../backend/catalog/README.md). Os IDs são atribuídos pelo banco e as categorias importadas ficam disponíveis no seletor.
+Os nomes de produtos e categorias aceitam de 2 a 120 caracteres. A descrição do produto é opcional, com até 1.000 caracteres; a descrição da categoria é obrigatória no cadastro, com até 500 caracteres. A edição de categorias antigas permite uma descrição vazia.
+
+As categorias do seletor vêm de `GET /categories`. Cadastre-as pelo menu **Categorias** antes de cadastrar produtos; quando o seletor está vazio, o formulário oferece um link para esse cadastro. A API usa `POST /categories`, `GET /categories/:id` e `PUT /categories/:id` para criar, carregar e editar. O nome, a descrição e o arquivo são enviados como `name`, `description` e `file`; o endereço público da categoria é gerado pelo servidor e permanece estável quando ela é renomeada.
+
+Para começar com as quatro categorias e os 40 produtos iniciais, aplique as migrations e execute `npm run seed:catalog` na pasta `backend`. Veja as [instruções da importação](../../backend/catalog/README.md). Os IDs são atribuídos pelo banco e ficam disponíveis no seletor.
 
 ## Atualização do banco
 
@@ -36,22 +43,25 @@ Na pasta backend, com backend/.env configurado:
 
     npm ci
     node --env-file=.env ./node_modules/sequelize-cli/lib/sequelize db:migrate
+    npm run seed:catalog
     npm run dev
 
-A migration 20261108120000-product-price-decimal deve ser aplicada antes de usar o novo CRUD. O rollback recusa a conversão para INTEGER se houver preços fracionários, para não descartar centavos.
+As migrations `20261108120000-product-price-decimal` e `20261108140000-add-live-catalog-metadata` devem ser aplicadas antes de usar estas telas. A primeira converte os preços e recusa rollback para INTEGER se houver centavos; a segunda adiciona descrições e endereços públicos estáveis às categorias. Ela preenche os metadados iniciais dos itens importados usando o histórico da importação, sem substituir nomes, preços, ofertas ou imagens alterados no painel.
 
 Na pasta frontend:
 
     npm ci
     npm run dev
 
-O proxy /api encaminha as chamadas e as imagens /api/product-file ao backend na porta 3001. frontend/.env.example usa o nome de variável reconhecido pela aplicação: VITE_API_URL. Em produção, configure um proxy equivalente ou a URL de API com CORS autorizado.
+O proxy /api encaminha as chamadas e as imagens /api/product-file e /api/category-file ao backend na porta 3001. frontend/.env.example usa o nome de variável reconhecido pela aplicação: VITE_API_URL. Em produção, configure um proxy equivalente ou a URL de API com CORS autorizado.
 
-## Relação com as telas demonstrativas
+## Publicação na vitrine
 
-A home, os cardápios por categoria e o checkout continuam usando o catálogo demonstrativo local. A importação cria registros equivalentes na API para administração, mas não sincroniza as alterações de volta para a vitrine. A publicação do catálogo da API na vitrine e o envio de pedidos reais pelo checkout serão uma integração separada.
+A home e os cardápios carregam produtos e categorias de `GET /catalog`, disponível sem autenticação. O checkbox **Produto em oferta** define quais produtos aparecem em **Ofertas do dia**. Cada produto aparece no cardápio da categoria selecionada por `category_id`; mudar a categoria no painel muda esse vínculo. As categorias cadastradas aparecem na navegação da loja e possuem cardápios próprios, mesmo quando ainda estão vazias.
 
-A tela de pedidos mostra somente pedidos já recebidos pela API. Concluir o checkout demonstrativo não cria pedidos no PostgreSQL.
+Após uma alteração bem-sucedida no painel, a vitrine consulta os dados atualizados ao voltar à loja ou quando uma aba da loja recebe o aviso de alteração. Ela também atualiza ao recuperar o foco e periodicamente enquanto estiver visível. Falhas de API exibem um erro e opção de tentar novamente; não ativam um catálogo local alternativo. O carrinho usa os preços atuais e remove produtos que deixaram de existir após a atualização do catálogo.
+
+O checkout permanece demonstrativo: usa os produtos da API, mas não envia pedidos nem processa pagamentos. A tela administrativa de pedidos mostra somente pedidos já recebidos pela API. Concluir o checkout demonstrativo não cria pedidos no PostgreSQL.
 
 ## Validação
 

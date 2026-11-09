@@ -1,9 +1,10 @@
 import Icon from '../../home/components/Icon.jsx';
 import { formatMoney } from '../../home/lib/money.js';
+import CatalogImage from '../../storefront/CatalogImage.jsx';
 
 function ProductPhoto({ image, imageAlt, imageWidth, imageHeight, className }) {
   return (
-    <img
+    <CatalogImage
       className={className}
       src={image}
       alt={imageAlt}

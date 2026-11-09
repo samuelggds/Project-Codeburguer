@@ -5,6 +5,7 @@ import { isSupportedImage, saveProductImage, discardNewProductImage } from "../l
 
 const fields = {
   name: Yup.string().trim().min(2).max(120),
+  description: Yup.string().trim().max(1000),
   // API values are Brazilian reais; DECIMAL preserves cents without scaling legacy values.
   price: Yup.number().typeError("Preço inválido").positive().max(99999999.99)
     .test("currency", "O preço deve ter no máximo duas casas decimais", (value) =>
@@ -14,6 +15,7 @@ const fields = {
 };
 const createSchema = Yup.object({
   name: fields.name.required(),
+  description: fields.description.default(""),
   price: fields.price.required(),
   category_id: fields.category_id.required(),
   offer: fields.offer.default(false),
@@ -66,7 +68,12 @@ class ProductsController {
 
   async index(request, response) {
     try {
-      const products = await Products.findAll({ include: includeCategory, order: [["id", "ASC"]] });
+      const categoryId = request.query.category_id;
+      if (categoryId !== undefined && !validId(categoryId)) return response.status(400).json({ error: "ID de categoria inválido" });
+      const products = await Products.findAll({
+        include: includeCategory, order: [["id", "ASC"]],
+        ...(categoryId !== undefined ? { where: { category_id: Number(categoryId) } } : {}),
+      });
       return response.json(products);
     } catch (error) {
       console.error("Erro ao listar produtos", error);

@@ -4,21 +4,29 @@
     {
       "key": "burgers",
       "name": "Hambúrgueres",
+      "slug": "hamburgueres",
+      "description": "Hamburgueres, x-saladas e cachorros-quentes.",
       "image": "category-burgers.png"
     },
     {
       "key": "drinks",
       "name": "Bebidas",
+      "slug": "bebidas",
+      "description": "Refrigerantes, sucos e vitaminas.",
       "image": "category-drinks.png"
     },
     {
       "key": "desserts",
       "name": "Sobremesas",
+      "slug": "sobremesas",
+      "description": "Panquecas e waffles.",
       "image": "category-desserts.png"
     },
     {
       "key": "starters",
       "name": "Entradas",
+      "slug": "entradas",
+      "description": "Batata-frita e petisco.",
       "image": "category-starters.png"
     }
   ],
@@ -26,6 +34,7 @@
     {
       "key": "burger",
       "name": "X-Tudo especial da casa",
+      "description": "",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": true,
@@ -34,6 +43,7 @@
     {
       "key": "waffles",
       "name": "Waffles",
+      "description": "",
       "categoryKey": "desserts",
       "priceCents": 2090,
       "offer": true,
@@ -42,6 +52,7 @@
     {
       "key": "pancakes",
       "name": "Panquecas",
+      "description": "",
       "categoryKey": "desserts",
       "priceCents": 1590,
       "offer": true,
@@ -50,6 +61,7 @@
     {
       "key": "toast",
       "name": "Misto-quente",
+      "description": "",
       "categoryKey": "burgers",
       "priceCents": 1290,
       "offer": true,
@@ -58,6 +70,7 @@
     {
       "key": "chicken-burger",
       "name": "X-Tudo Duplo Frango",
+      "description": "Feito com pão, filé de frango, queijo, presunto, alface, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -66,6 +79,7 @@
     {
       "key": "bacon-burger",
       "name": "X-Bacon com molho da casa",
+      "description": "Feito com pão, hambúrguer, queijo, presunto, alface, bacon, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -74,6 +88,7 @@
     {
       "key": "spicy-salad-burger",
       "name": "Duplo X-Salada Picante",
+      "description": "Feito com pão, hambúrguer, queijo, presunto, alface, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -82,6 +97,7 @@
     {
       "key": "salad-burger",
       "name": "X-Salada",
+      "description": "Feito com pão, hambúrguer, queijo, presunto, alface, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -90,6 +106,7 @@
     {
       "key": "house-nuggets-burger",
       "name": "X-Especial da casa com Nuggets",
+      "description": "Feito com pão, hambúrguer, queijo, presunto, alface, tomate, ovo, salsicha e molho especial da casa + nuggets.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -98,6 +115,7 @@
     {
       "key": "double-salad-burger",
       "name": "Duplo X-Salada com molho especial",
+      "description": "Feito com pão, hambúrguer duplo, queijo, presunto, alface, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -106,6 +124,7 @@
     {
       "key": "double-chicken-burger",
       "name": "X-Tudo Duplo Frango",
+      "description": "Feito com pão, filé de frango duplo, queijo, presunto, alface, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -114,6 +133,7 @@
     {
       "key": "house-bacon-burger",
       "name": "X-Bacon com molho da casa",
+      "description": "Feito com pão, hambúrguer, queijo, presunto, alface, bacon, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -122,6 +142,7 @@
     {
       "key": "double-spicy-burger",
       "name": "Duplo X-Salada Picante",
+      "description": "Feito com pão, hambúrguer, queijo, presunto, alface, tomate, ovo, salsicha e molho especial da casa.",
       "categoryKey": "burgers",
       "priceCents": 3590,
       "offer": false,
@@ -130,6 +151,7 @@
     {
       "key": "drink-cola",
       "name": "Coca-Cola",
+      "description": "Escolha entre o sabor autêntico da Coca-Cola clássica ou a versão refrescante sem açúcar da Coca-Cola Zero.",
       "categoryKey": "drinks",
       "priceCents": 590,
       "offer": false,
@@ -138,6 +160,7 @@
     {
       "key": "drink-sparkling-water",
       "name": "Água com Gás",
+      "description": "Refrescante e com sabor puro. Uma escolha saudável e sem calorias para qualquer momento.",
       "categoryKey": "drinks",
       "priceCents": 490,
       "offer": false,
@@ -146,6 +169,7 @@
     {
       "key": "drink-juice",
       "name": "Suco Natural",
+      "description": "Desfrute da nossa seleção de sucos naturais, preparados com as frutas mais frescas da estação.",
       "categoryKey": "drinks",
       "priceCents": 1000,
       "offer": false,
@@ -154,6 +178,7 @@
     {
       "key": "drink-coffee",
       "name": "Café Espresso",
+      "description": "Um clássico atemporal, uma dose concentrada de sabor e energia, com creme dourado e um aroma envolvente.",
       "categoryKey": "drinks",
       "priceCents": 700,
       "offer": false,
@@ -162,6 +187,7 @@
     {
       "key": "drink-tea",
       "name": "Chás",
+      "description": "Desfrute da serenidade e da versatilidade, tanto em um chá quente quanto gelado.",
       "categoryKey": "drinks",
       "priceCents": 500,
       "offer": false,
@@ -170,6 +196,7 @@
     {
       "key": "drink-milk",
       "name": "Bebidas lácteas",
+      "description": "Cremosidade irresistível dos nossos batidos lácteos, uma combinação perfeita de frescor e sabor único.",
       "categoryKey": "drinks",
       "priceCents": 1200,
       "offer": false,
@@ -178,6 +205,7 @@
     {
       "key": "drink-cocktails",
       "name": "Coquetéis",
+      "description": "Cada coquetel é uma explosão de sabores e uma experiência sensorial única.",
       "categoryKey": "drinks",
       "priceCents": 1500,
       "offer": false,
@@ -186,6 +214,7 @@
     {
       "key": "drink-alcoholic",
       "name": "Bebidas alcoólicas",
+      "description": "Explore uma variedade de champanhes, vinhos e uísques para uma experiência sensorial completa.",
       "categoryKey": "drinks",
       "priceCents": 5000,
       "offer": false,
@@ -194,6 +223,7 @@
     {
       "key": "drink-energy",
       "name": "Energético",
+      "description": "Uma explosão de vitalidade e alerta para manter você ativo e focado durante todo o dia.",
       "categoryKey": "drinks",
       "priceCents": 900,
       "offer": false,
@@ -202,6 +232,7 @@
     {
       "key": "dessert-cakes",
       "name": "Bolos",
+      "description": "Delicie-se com camadas macias e sabores variados, desde o clássico bolo de chocolate até criações sofisticadas com frutas e cremes.",
       "categoryKey": "desserts",
       "priceCents": 1500,
       "offer": false,
@@ -210,6 +241,7 @@
     {
       "key": "dessert-ice-cream",
       "name": "Sorvetes",
+      "description": "Feitos com ingredientes frescos e naturais, com combinações de ingredientes premium.",
       "categoryKey": "desserts",
       "priceCents": 1590,
       "offer": false,
@@ -218,6 +250,7 @@
     {
       "key": "dessert-pudding",
       "name": "Pudins",
+      "description": "Cremosos e suaves, são uma delícia reconfortante. Variedades populares incluem pudim de leite, chocolate e caramelo.",
       "categoryKey": "desserts",
       "priceCents": 900,
       "offer": false,
@@ -226,6 +259,7 @@
     {
       "key": "dessert-mousse",
       "name": "Mousses",
+      "description": "Experiência única: leves, elegantes e deliciosas, em sabores irresistíveis como chocolate e maracujá.",
       "categoryKey": "desserts",
       "priceCents": 1490,
       "offer": false,
@@ -234,6 +268,7 @@
     {
       "key": "dessert-gelatin",
       "name": "Gelatinas",
+      "description": "Coloridas e versáteis, servidas simples ou combinadas com frutas e cremes. Uma opção leve e refrescante.",
       "categoryKey": "desserts",
       "priceCents": 500,
       "offer": false,
@@ -242,6 +277,7 @@
     {
       "key": "dessert-pies",
       "name": "Tortas",
+      "description": "Crocantes por fora, cremosas por dentro. Variedades de recheios, de frutas frescas a mousses decadentes.",
       "categoryKey": "desserts",
       "priceCents": 2390,
       "offer": false,
@@ -250,6 +286,7 @@
     {
       "key": "dessert-traditional",
       "name": "Doces Tradicionais",
+      "description": "Celebre a cultura com doces típicos, como brigadeiro, quindim e cocada. Sabor e tradição em cada mordida.",
       "categoryKey": "desserts",
       "priceCents": 490,
       "offer": false,
@@ -258,6 +295,7 @@
     {
       "key": "dessert-pave",
       "name": "Pavês",
+      "description": "Uma combinação sofisticada de biscoitos embebidos em vários sabores marcantes.",
       "categoryKey": "desserts",
       "priceCents": 1590,
       "offer": false,
@@ -266,6 +304,7 @@
     {
       "key": "dessert-cheesecake",
       "name": "Cheesecake",
+      "description": "Feito com uma base de biscoito e uma camada espessa de creme de queijo, muitas vezes coberto com frutas ou caldas.",
       "categoryKey": "desserts",
       "priceCents": 2590,
       "offer": false,
@@ -274,6 +313,7 @@
     {
       "key": "starter-salad",
       "name": "Saladas",
+      "description": "Frescas e coloridas, perfeitas para iniciar sua refeição com um toque saudável e saboroso.",
       "categoryKey": "starters",
       "priceCents": 900,
       "offer": false,
@@ -282,6 +322,7 @@
     {
       "key": "starter-bruschetta",
       "name": "Bruschettas",
+      "description": "Simplicidade e a elegância da Itália em cada mordida, crocantes por fora, recheadas de sabores por dentro.",
       "categoryKey": "starters",
       "priceCents": 3500,
       "offer": false,
@@ -290,6 +331,7 @@
     {
       "key": "starter-carpaccio",
       "name": "Carpaccios",
+      "description": "Fatias finas de carne ou peixe, marinadas em temperos frescos e servidas com queijo parmesão, rúcula e um toque de azeite de oliva.",
       "categoryKey": "starters",
       "priceCents": 3990,
       "offer": false,
@@ -298,6 +340,7 @@
     {
       "key": "starter-ceviche",
       "name": "Ceviches",
+      "description": "Peixe marinado em suco cítrico, temperado com pimenta, cebola roxa e coentro, servido com chips de batata doce.",
       "categoryKey": "starters",
       "priceCents": 4500,
       "offer": false,
@@ -306,6 +349,7 @@
     {
       "key": "starter-cheese-board",
       "name": "Tábua de Queijos e Frios",
+      "description": "Queijos e embutidos artesanais, uma celebração dos melhores sabores da culinária regional.",
       "categoryKey": "starters",
       "priceCents": 6990,
       "offer": false,
@@ -314,6 +358,7 @@
     {
       "key": "starter-croquettes",
       "name": "Croquetes",
+      "description": "Crocantes, recheados com uma variedade de sabores tentadores, como carne, frango ou queijo.",
       "categoryKey": "starters",
       "priceCents": 2390,
       "offer": false,
@@ -322,6 +367,7 @@
     {
       "key": "starter-pastries",
       "name": "Pastéis",
+      "description": "Recheados com uma variedade de ingredientes suculentos, como carne, queijo ou palmito.",
       "categoryKey": "starters",
       "priceCents": 3590,
       "offer": false,
@@ -330,6 +376,7 @@
     {
       "key": "starter-tartines",
       "name": "Tartines",
+      "description": "Fatias de pão cobertas com ingredientes, como abacate, salmão defumado, ovos poché e queijo.",
       "categoryKey": "starters",
       "priceCents": 2590,
       "offer": false,
@@ -338,6 +385,7 @@
     {
       "key": "starter-cod-fritters",
       "name": "Bolinhos de Bacalhau",
+      "description": "Bolinhos fritos de purê de batata e bacalhau desfiado, uma entrada clássica da culinária portuguesa.",
       "categoryKey": "starters",
       "priceCents": 4500,
       "offer": false,

@@ -5,7 +5,7 @@ import { formatPriceInput, MAX_IMAGE_BYTES, parsePriceToReais } from '../utils.j
 import { getApiError } from '../../../services/authService.js';
 
 const imageTypes = ['image/png', 'image/jpeg', 'image/webp'];
-const emptyForm = { name: '', price: '', category: '', offer: false };
+const emptyForm = { name: '', description: '', price: '', category: '', offer: false };
 
 export default function AdminProductForm() {
   const { id } = useParams();
@@ -38,6 +38,8 @@ export default function AdminProductForm() {
     setProduct(null);
     setValues(emptyForm);
     setFile(null);
+    setImageFailed(false);
+    if (fileInput.current) fileInput.current.value = '';
     setSaving(false);
     savingRef.current = false;
 
@@ -53,6 +55,7 @@ export default function AdminProductForm() {
       if (nextProduct) {
         setValues({
           name: nextProduct.name || '',
+          description: nextProduct.description || '',
           price: formatPriceInput(nextProduct.price),
           category: String(nextProduct.category_id || nextProduct.category?.id || ''),
           offer: nextProduct.offer === true || nextProduct.offer === 'true',
@@ -109,9 +112,11 @@ export default function AdminProductForm() {
     event.preventDefault();
     if (savingRef.current) return;
     const name = values.name.trim();
+    const description = values.description.trim();
     const price = parsePriceToReais(values.price);
     const nextErrors = {};
     if (name.length < 2 || name.length > 120) nextErrors.name = 'Informe um nome de 2 a 120 caracteres.';
+    if (description.length > 1000) nextErrors.description = 'A descrição deve ter no máximo 1.000 caracteres.';
     if (!price) nextErrors.price = 'Informe um preço maior que zero, com até duas casas decimais.';
     if (!categories.some((category) => String(category.id) === values.category)) nextErrors.category = 'Selecione uma categoria válida.';
     if (!editing && !file) nextErrors.file = errors.file || 'Selecione uma imagem para o produto.';
@@ -126,6 +131,7 @@ export default function AdminProductForm() {
 
     const data = new FormData();
     data.append('name', name);
+    data.append('description', description);
     data.append('price', price);
     data.append('category_id', values.category);
     data.append('offer', String(values.offer));
@@ -157,7 +163,7 @@ export default function AdminProductForm() {
 
   return (
     <section className="admin-product-editor" aria-labelledby="admin-product-form-heading">
-      <h1 id="admin-product-form-heading" className="admin-sr-only">{title}</h1>
+      <h2 id="admin-product-form-heading" className="admin-sr-only">{title}</h2>
       {loading ? <p className="admin-empty" role="status">Carregando produto e categorias...</p> :
         loadError ? (
           <div className="admin-empty">
@@ -172,6 +178,12 @@ export default function AdminProductForm() {
               aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'admin-name-error' : undefined}
               onChange={(event) => changeValue('name', event.target.value)} />
             {errors.name && <p className="admin-field-error" id="admin-name-error">{errors.name}</p>}
+
+            <label htmlFor="admin-product-description">Descrição <span className="admin-label-optional">(opcional)</span></label>
+            <textarea id="admin-product-description" name="description" aria-label="Descrição" value={values.description} rows={3} maxLength={1000} disabled={saving}
+              aria-invalid={Boolean(errors.description)} aria-describedby={errors.description ? 'admin-description-error' : undefined}
+              onChange={(event) => changeValue('description', event.target.value)} />
+            {errors.description && <p className="admin-field-error" id="admin-description-error">{errors.description}</p>}
 
             <label htmlFor="admin-product-price">Preço</label>
             <input id="admin-product-price" name="price" type="text" inputMode="decimal" value={values.price} required disabled={saving}
@@ -200,18 +212,20 @@ export default function AdminProductForm() {
 
             <label htmlFor="admin-product-category">Categoria</label>
             <select id="admin-product-category" name="category" value={values.category} required disabled={saving || !categories.length}
-              aria-invalid={Boolean(errors.category)} aria-describedby={errors.category ? 'admin-category-error' : undefined}
+              aria-invalid={Boolean(errors.category)} aria-describedby={errors.category ? 'admin-category-error' : 'admin-category-help'}
               onChange={(event) => changeValue('category', event.target.value)}>
               <option value="">Selecione uma categoria</option>
               {categories.map((category) => <option key={category.id} value={String(category.id)}>{category.name}</option>)}
             </select>
             {errors.category && <p className="admin-field-error" id="admin-category-error">{errors.category}</p>}
-            {!categories.length && <p className="admin-field-error" role="alert">Nenhuma categoria disponível. Cadastre uma categoria antes de salvar produtos.</p>}
+            {categories.length ? <p className="admin-form-help" id="admin-category-help">O produto aparecerá nesta categoria do cardápio.</p> :
+              <p className="admin-field-error" id="admin-category-help" role="alert">Nenhuma categoria disponível. <Link className="admin-form-link" to="/admin/categorias/novo">Cadastrar categoria</Link> antes de salvar produtos.</p>}
 
             <label className="admin-offer-field">
-              <input type="checkbox" name="offer" checked={values.offer} disabled={saving} onChange={(event) => changeValue('offer', event.target.checked)} />
+              <input type="checkbox" name="offer" checked={values.offer} disabled={saving} aria-describedby="admin-offer-help" onChange={(event) => changeValue('offer', event.target.checked)} />
               Produto em oferta
             </label>
+            <p className="admin-form-help" id="admin-offer-help">Exibir este produto nas ofertas da página inicial.</p>
 
             {saveError && <p className="admin-error" role="alert">{saveError}</p>}
             <button className="admin-primary" type="submit" disabled={saving || !categories.length}>

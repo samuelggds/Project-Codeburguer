@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test'
+import { mockCatalog } from './fixtures/catalog.js'
+
+test.beforeEach(async ({ page }) => {
+  await mockCatalog(page)
+})
 
 const expectedDrinks = [
   { id: 'drink-cola', name: 'Coca-Cola', price: '5,90' },
@@ -36,7 +41,9 @@ test('Bebidas opens from home with the nine reference names and prices', async (
     await expect(card.locator('.menu-photo-box img').first()).toBeVisible()
   }
   await expect(page.locator('.menu-hero')).toBeVisible()
-  await expect(page.locator('[data-id="drink-cocktails"] .menu-photo-box img')).toHaveCount(2)
+  // The API serves the two cocktail photos as one composed SVG asset.
+  await expect(page.locator('[data-id="drink-cocktails"] .menu-photo-box img')).toHaveCount(1)
+  await expect(page.locator('[data-id="drink-cocktails"] .menu-photo-box img')).toHaveAttribute('src', /product-drink-cocktails\.svg$/)
   await expect(page.locator('.menu-photo-placeholder')).toHaveCount(0)
   await expect(page.getByText('Em breve', { exact: true })).toHaveCount(0)
 })
