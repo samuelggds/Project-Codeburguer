@@ -1,0 +1,43 @@
+.catalog-feedback, .catalog-empty {
+  margin: 24px auto;
+  padding: 24px;
+  max-width: 720px;
+  text-align: center;
+  color: #54315e;
+}
+.catalog-feedback button {
+  border: 0;
+  border-radius: 6px;
+  background: #9956a7;
+  color: white;
+  padding: 12px 22px;
+  cursor: pointer;
+  font: inherit;
+}
+.dev-burguer-app .category-photo { margin-inline: auto; }
+.dev-burguer-app .category-copy { max-width: 100%; }
+.dev-burguer-app .category-description {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dev-burguer-app .category-title {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dev-burguer-app .menu-photo-box .menu-product-photo { height: 100%; object-fit: contain; }
+.dev-burguer-app .product h3 {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dev-burguer-app .menu-product h3,
+.dev-burguer-app .menu-description,
+.dev-burguer-app .menu-heading { overflow-wrap: anywhere; }
+.dev-burguer-app .offers .catalog-empty + .offer-carousel { display: none; }

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { categories } from '../features/home/data/catalog.js';
 import { useStorefront } from '../features/storefront/StorefrontContext.jsx';
 import { useToast } from '../features/home/hooks/useToast.js';
 import Header from '../features/home/components/Header.jsx';
@@ -9,27 +8,29 @@ import CartDialog from '../features/home/components/CartDialog.jsx';
 import Toast from '../features/home/components/Toast.jsx';
 import MenuHero from '../features/menu/components/MenuHero.jsx';
 import MenuProductCard from '../features/menu/components/MenuProductCard.jsx';
-import { menuSections } from '../features/menu/data/sections.js';
+import CatalogFeedback from '../features/storefront/CatalogFeedback.jsx';
 import './Home.css';
 import '../features/menu/styles/menu.css';
 
 export default function CategoryMenu() {
   const { categoria } = useParams();
-  const category = categories.find((item) => item.slug === categoria);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const { cart, isFavorite, toggleFavorite } = useStorefront();
+  const { cart, categories, products, isFavorite, toggleFavorite, catalogLoading, catalogError, refreshCatalog } = useStorefront();
+  const category = categories.find((item) => item.slug === categoria);
   const { toast, notify } = useToast();
   const [cartOpen, setCartOpen] = useState(false);
   const headingRef = useRef(null);
-  const menuSection = menuSections[category?.id];
+  const categoryProducts = products.filter((product) => product.categoryId === category?.databaseId);
+  const categoryName = (category?.name || '').toLocaleUpperCase('pt-BR');
+  const heading = category?.slug === 'hamburgueres' ? categoryName + ' - CARDÁPIO' : 'CARDÁPIO - ' + categoryName;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
     setCartOpen(false);
   }, [categoria]);
 
-  if (!category || !menuSection) return <Navigate to="/" replace />;
+  if (!catalogLoading && !catalogError && !category) return <Navigate to="/" replace />;
 
   function handleAdd(product) {
     if ((cart.quantities[product.id] || 0) >= cart.maxQuantity) {
@@ -43,7 +44,7 @@ export default function CategoryMenu() {
   return (
     <div className="dev-burguer-app">
       <div className="desktop">
-        <div className="home menu-page" data-menu-category={category.id}>
+        <div className="home menu-page" data-menu-category={category?.id}>
           <Header
             variant="menu"
             cartCount={cart.count}
@@ -57,11 +58,13 @@ export default function CategoryMenu() {
           <main>
             <MenuHero />
             <section className="catalog menu-catalog" aria-labelledby="menu-heading">
+              {catalogLoading || catalogError ? <CatalogFeedback loading={catalogLoading} error={catalogError} onRetry={refreshCatalog} /> : <>
               <h2 className="menu-heading" id="menu-heading" ref={headingRef} tabIndex={-1}>
-                {menuSection.heading}
+                {heading}
               </h2>
+              {!categoryProducts.length && <p className="catalog-empty">Nenhum produto cadastrado nesta categoria.</p>}
               <div className="menu-grid">
-                {menuSection.products.map((product) => (
+                {categoryProducts.map((product) => (
                   <MenuProductCard
                     key={product.id}
                     product={product}
@@ -71,6 +74,7 @@ export default function CategoryMenu() {
                   />
                 ))}
               </div>
+              </>}
               <Link className="menu-back" to="/">‹ Voltar</Link>
             </section>
           </main>

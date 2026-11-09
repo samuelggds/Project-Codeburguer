@@ -4,12 +4,13 @@ import { formatMoney } from '../features/home/lib/money.js';
 import CheckoutLayout from '../features/checkout/components/CheckoutLayout.jsx';
 import OrderSummary from '../features/checkout/components/OrderSummary.jsx';
 import { DELIVERY_FEE_CENTS } from '../features/checkout/useDemoCheckout.js';
+import CatalogFeedback from '../features/storefront/CatalogFeedback.jsx';
 
 export default function Cart() {
-  const { cart } = useStorefront();
+  const { cart, catalogLoading, catalogError, refreshCatalog } = useStorefront();
   return (
     <CheckoutLayout title="Checkout – Pedido">
-      {!cart.count ? (
+      {catalogLoading || catalogError ? <CatalogFeedback loading={catalogLoading} error={catalogError} onRetry={refreshCatalog} /> : !cart.count ? (
         <div className="checkout-empty">
           <h2>Seu carrinho está vazio.</h2>
           <p>Escolha seus produtos para experimentar o checkout.</p>

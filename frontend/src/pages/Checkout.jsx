@@ -5,9 +5,10 @@ import CheckoutLayout from '../features/checkout/components/CheckoutLayout.jsx';
 import OrderSummary from '../features/checkout/components/OrderSummary.jsx';
 import AddressForm from '../features/checkout/components/AddressForm.jsx';
 import { DELIVERY_FEE_CENTS, PAYMENT_METHODS } from '../features/checkout/useDemoCheckout.js';
+import CatalogFeedback from '../features/storefront/CatalogFeedback.jsx';
 
 export default function Checkout() {
-  const { cart, checkout } = useStorefront();
+  const { cart, checkout, catalogLoading, catalogError, refreshCatalog } = useStorefront();
   const { address, paymentMethod, setPaymentMethod } = checkout;
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState('');
@@ -15,6 +16,7 @@ export default function Checkout() {
   const addressButton = useRef(null);
   const navigate = useNavigate();
 
+  if (catalogLoading || catalogError) return <CheckoutLayout title="Checkout – Finalizar pedido"><CatalogFeedback loading={catalogLoading} error={catalogError} onRetry={refreshCatalog} /></CheckoutLayout>;
   if (!cart.count) return <Navigate to="/carrinho" replace />;
 
   function finish() {

@@ -1,6 +1,6 @@
 # Catálogo inicial da loja
 
-Esta importação cadastra no PostgreSQL os produtos que já aparecem na home e nos cardápios. Eles passam a aparecer em **Listar produtos** e podem ser editados, marcados como oferta ou excluídos pelo administrador. As categorias ficam disponíveis no formulário de cadastro.
+Esta importação fornece os dados iniciais da loja no PostgreSQL. A home e os cardápios consultam esses registros pela API pública `GET /catalog`; o painel administrativo usa os mesmos produtos e categorias. Os produtos aparecem em **Listar produtos** e podem ser editados, marcados como oferta ou excluídos pelo administrador. As categorias aparecem em **Listar categorias** e no seletor do formulário de produto.
 
 | Categoria | Produtos |
 | --- | ---: |
@@ -10,7 +10,7 @@ Esta importação cadastra no PostgreSQL os produtos que já aparecem na home e 
 | Entradas | 9 |
 | **Total** | **40** |
 
-Os quatro produtos da home — X-Tudo especial da casa, Waffles, Panquecas e Misto-quente — entram como ofertas. Os preços são os mesmos da vitrine; R$ 35,90 é armazenado como `35.90`. As imagens originais acompanham o catálogo, inclusive as composições com duas fotos e o combo de nuggets.
+Os quatro produtos da home original — X-Tudo especial da casa, Waffles, Panquecas e Misto-quente — entram como ofertas. Os preços preservam o catálogo inicial; R$ 35,90 é armazenado como `35.90`. Descrições, endereços públicos das categorias e imagens acompanham o pacote, inclusive as composições com duas fotos e o combo de nuggets.
 
 ## Importar
 
@@ -21,7 +21,9 @@ node --env-file=.env ./node_modules/sequelize-cli/lib/sequelize db:migrate
 npm run seed:catalog
 ```
 
-Depois, atualize a página do dashboard. Se a API não estiver rodando, inicie-a com `npm run dev`.
+Depois, atualize o dashboard ou a home. Se a API não estiver rodando, inicie-a com `npm run dev`. O frontend depende da API para exibir produtos; sem dados no banco, a vitrine exibe um catálogo vazio.
+
+Aplique todas as migrations antes da importação. `20261108120000-product-price-decimal` define preços em reais e `20261108140000-add-live-catalog-metadata` adiciona descrições e endereços públicos estáveis às categorias. Em um banco com importação anterior, esta última usa o histórico de origem para preencher os novos metadados dos itens conhecidos, preservando os demais campos editados.
 
 O comando copia as imagens para `backend/uploads` e cadastra as categorias e produtos em uma transação. Não cria contas, não altera permissões de administrador e não cria pedidos. Ele é executado explicitamente, sem importar dados a cada inicialização do servidor.
 
@@ -49,11 +51,13 @@ Para conferir a correspondência com os arquivos atuais da vitrine, na raiz do r
 node backend/catalog/build-catalog.mjs --check
 ```
 
-O gerador lê os módulos locais da home e dos cardápios, preservando chaves, preços, categorias e imagens. Para atualizar o pacote após uma mudança intencional nesses dados, execute o mesmo comando sem `--check` e revise o diff. Atualizar o pacote não substitui registros que já foram importados e editados no banco.
+O gerador lê os módulos locais do catálogo inicial, preservando chaves, preços, descrições, categorias e imagens. Esses módulos servem para gerar o pacote; a vitrine em execução lê a API. Para atualizar o pacote após uma mudança intencional nesses dados iniciais, execute o mesmo comando sem `--check` e revise o diff. Atualizar o pacote não substitui registros que já foram importados e editados no banco.
 
-## Limite desta etapa
+## Administrar o catálogo publicado
 
-A importação fornece os registros iniciais ao painel. A home e os cardápios ainda usam os dados demonstrativos locais; alterações no dashboard não aparecem automaticamente na vitrine. O checkout continua sendo uma simulação, sem enviar pedidos ao PostgreSQL.
+Depois da importação, use o painel para as alterações cotidianas. Marcar **Produto em oferta** inclui o produto nas ofertas da home; desmarcar o retira dessa seção. O campo `category_id` determina em qual cardápio o produto aparece. O menu **Categorias** permite cadastrar e editar nome, descrição e imagem; os endereços dos cardápios permanecem estáveis após renomear uma categoria.
+
+Alterações salvas são refletidas na vitrine, incluindo abas abertas da mesma loja. Não é necessário executar novamente a importação para publicar essas alterações. O checkout usa os produtos e preços atualizados, mas continua sendo uma simulação, sem enviar pedidos ao PostgreSQL ou realizar cobranças.
 
 ## Prévias
 

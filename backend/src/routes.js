@@ -2,21 +2,20 @@ import { Router } from "express";
 import UserController from "./app/controllers/UserController";
 import LoginController from "./app/controllers/LoginController";
 import ProductsController from "./app/controllers/ProductsController";
-import multer from "multer";
-import multerConfig from "./config/multer";
 import authMiddleware from "./app/middlewares/auth";
 import CategoryController from "./app/controllers/CategoryController";
 import OrderController from "./app/controllers/OrderController";
 import adminMiddleware from "./app/middlewares/admin";
 import productUpload from "./app/middlewares/productUpload";
-
-const upload = multer(multerConfig);
+import CatalogController from "./app/controllers/CatalogController";
 
 const routes = new Router();
 
 routes.post("/users", UserController.store);
 
 routes.post("/login", LoginController.store);
+
+routes.get("/catalog", CatalogController.index);
 
 routes.use(authMiddleware);
 
@@ -31,9 +30,10 @@ routes.get("/products/:id", adminMiddleware, ProductsController.show);
 routes.put("/products/:id", adminMiddleware, productUpload, ProductsController.update);
 routes.delete("/products/:id", adminMiddleware, ProductsController.destroy);
 
-routes.post("/categories", adminMiddleware, upload.single("file"), CategoryController.store);
+routes.post("/categories", adminMiddleware, productUpload, CategoryController.store);
 routes.get("/categories", CategoryController.index);
-routes.put("/categories", adminMiddleware, CategoryController.update);
+routes.get("/categories/:id", adminMiddleware, CategoryController.show);
+routes.put("/categories/:id", adminMiddleware, productUpload, CategoryController.update);
 
 routes.post("/orders", OrderController.store);
 routes.put("/orders/:id", adminMiddleware, OrderController.update);

@@ -167,14 +167,14 @@ const categories = [];
 const products = [];
 for (const category of home.categories) {
   validateKey(category, categoryKeys);
-  categories.push({ key: category.id, name: category.menuName || category.name, image: await imageAsset('category', category) });
+  categories.push({ key: category.id, name: category.menuName || category.name, slug: category.slug, description: category.description || '', image: await imageAsset('category', category) });
 }
 
 async function addProduct(product, categoryKey, offer) {
   validateKey(product, productKeys);
   assert(categoryKeys.has(categoryKey), `Unknown category for ${product.id}: ${categoryKey}`);
   assert(Number.isSafeInteger(product.priceCents) && product.priceCents > 0 && product.priceCents <= 9_999_999_999, `Invalid price: ${product.id}`);
-  products.push({ key: product.id, name: product.name, categoryKey, priceCents: product.priceCents, offer, image: await imageAsset('product', product) });
+  products.push({ key: product.id, name: product.name, description: product.description || '', categoryKey, priceCents: product.priceCents, offer, image: await imageAsset('product', product) });
 }
 
 for (const product of home.products) {

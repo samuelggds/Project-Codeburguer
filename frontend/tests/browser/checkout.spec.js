@@ -1,15 +1,18 @@
 import { test, expect } from '@playwright/test'
+import { mockCatalog } from './fixtures/catalog.js'
 
 const CART_STORAGE_KEY = 'dev-burguer-cesta'
 const demoNotice = 'Demonstração: nenhum pedido será enviado e nenhuma cobrança será realizada.'
 const completionHeading = /Checkout\s*[–-]\s*Pedido concluído/
 
 test.beforeEach(async ({ page }) => {
+  await mockCatalog(page)
   await page.route('https://fonts.googleapis.com/**', route => route.fulfill({ contentType: 'text/css', body: '' }))
 })
 
 async function seedCart(page, path = '/carrinho', cart = { burger: 2, waffles: 1 }) {
   await page.goto('/')
+  await expect(page.locator('.product')).toHaveCount(4)
   await page.evaluate(({ key, cart }) => localStorage.setItem(key, JSON.stringify(cart)), {
     key: CART_STORAGE_KEY,
     cart,

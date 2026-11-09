@@ -3,7 +3,7 @@ import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 const clamp = (value, max) => Math.max(0, Math.min(value, max));
 
 /** Keep the reference's 55px initial crop while revealing keyboard-focused cards. */
-export function useCategoryCarousel(resetSignal = 0) {
+export function useCategoryCarousel(resetSignal = 0, categoryCount = 0) {
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const [geometry, setGeometry] = useState({ position: null, max: 0, step: 0, unit: 1 });
@@ -36,7 +36,7 @@ export function useCategoryCarousel(resetSignal = 0) {
     const observer = new ResizeObserver(measure);
     observer.observe(viewport);
     return () => observer.disconnect();
-  }, [measure]);
+  }, [measure, categoryCount]);
 
   useLayoutEffect(() => {
     if (resetSignal > 0) setGeometry((previous) => ({ ...previous, position: 0 }));

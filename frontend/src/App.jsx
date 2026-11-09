@@ -11,6 +11,8 @@ import AdminLayout from './features/admin/components/AdminLayout'
 import AdminOrders from './features/admin/pages/AdminOrders'
 import AdminProducts from './features/admin/pages/AdminProducts'
 import AdminProductForm from './features/admin/pages/AdminProductForm'
+import AdminCategories from './features/admin/pages/AdminCategories'
+import AdminCategoryForm from './features/admin/pages/AdminCategoryForm'
 import { StorefrontProvider } from './features/storefront/StorefrontContext'
 
 export default function App() {
@@ -32,6 +34,9 @@ export default function App() {
             <Route path="produtos" element={<AdminProducts />} />
             <Route path="produtos/novo" element={<AdminProductForm />} />
             <Route path="produtos/:id/editar" element={<AdminProductForm />} />
+            <Route path="categorias" element={<AdminCategories />} />
+            <Route path="categorias/novo" element={<AdminCategoryForm />} />
+            <Route path="categorias/:id/editar" element={<AdminCategoryForm />} />
             <Route path="*" element={<Navigate to="/admin/pedidos" replace />} />
           </Route>
         </Route>
