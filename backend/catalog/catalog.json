@@ -1,0 +1,347 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "key": "burgers",
+      "name": "Hambúrgueres",
+      "image": "category-burgers.png"
+    },
+    {
+      "key": "drinks",
+      "name": "Bebidas",
+      "image": "category-drinks.png"
+    },
+    {
+      "key": "desserts",
+      "name": "Sobremesas",
+      "image": "category-desserts.png"
+    },
+    {
+      "key": "starters",
+      "name": "Entradas",
+      "image": "category-starters.png"
+    }
+  ],
+  "products": [
+    {
+      "key": "burger",
+      "name": "X-Tudo especial da casa",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": true,
+      "image": "product-burger.png"
+    },
+    {
+      "key": "waffles",
+      "name": "Waffles",
+      "categoryKey": "desserts",
+      "priceCents": 2090,
+      "offer": true,
+      "image": "product-waffles.png"
+    },
+    {
+      "key": "pancakes",
+      "name": "Panquecas",
+      "categoryKey": "desserts",
+      "priceCents": 1590,
+      "offer": true,
+      "image": "product-pancakes.png"
+    },
+    {
+      "key": "toast",
+      "name": "Misto-quente",
+      "categoryKey": "burgers",
+      "priceCents": 1290,
+      "offer": true,
+      "image": "product-toast.png"
+    },
+    {
+      "key": "chicken-burger",
+      "name": "X-Tudo Duplo Frango",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-chicken-burger.png"
+    },
+    {
+      "key": "bacon-burger",
+      "name": "X-Bacon com molho da casa",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-bacon-burger.png"
+    },
+    {
+      "key": "spicy-salad-burger",
+      "name": "Duplo X-Salada Picante",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-spicy-salad-burger.png"
+    },
+    {
+      "key": "salad-burger",
+      "name": "X-Salada",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-salad-burger.png"
+    },
+    {
+      "key": "house-nuggets-burger",
+      "name": "X-Especial da casa com Nuggets",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-house-nuggets-burger.svg"
+    },
+    {
+      "key": "double-salad-burger",
+      "name": "Duplo X-Salada com molho especial",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-double-salad-burger.png"
+    },
+    {
+      "key": "double-chicken-burger",
+      "name": "X-Tudo Duplo Frango",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-double-chicken-burger.png"
+    },
+    {
+      "key": "house-bacon-burger",
+      "name": "X-Bacon com molho da casa",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-house-bacon-burger.png"
+    },
+    {
+      "key": "double-spicy-burger",
+      "name": "Duplo X-Salada Picante",
+      "categoryKey": "burgers",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-double-spicy-burger.png"
+    },
+    {
+      "key": "drink-cola",
+      "name": "Coca-Cola",
+      "categoryKey": "drinks",
+      "priceCents": 590,
+      "offer": false,
+      "image": "product-drink-cola.png"
+    },
+    {
+      "key": "drink-sparkling-water",
+      "name": "Água com Gás",
+      "categoryKey": "drinks",
+      "priceCents": 490,
+      "offer": false,
+      "image": "product-drink-sparkling-water.svg"
+    },
+    {
+      "key": "drink-juice",
+      "name": "Suco Natural",
+      "categoryKey": "drinks",
+      "priceCents": 1000,
+      "offer": false,
+      "image": "product-drink-juice.png"
+    },
+    {
+      "key": "drink-coffee",
+      "name": "Café Espresso",
+      "categoryKey": "drinks",
+      "priceCents": 700,
+      "offer": false,
+      "image": "product-drink-coffee.png"
+    },
+    {
+      "key": "drink-tea",
+      "name": "Chás",
+      "categoryKey": "drinks",
+      "priceCents": 500,
+      "offer": false,
+      "image": "product-drink-tea.png"
+    },
+    {
+      "key": "drink-milk",
+      "name": "Bebidas lácteas",
+      "categoryKey": "drinks",
+      "priceCents": 1200,
+      "offer": false,
+      "image": "product-drink-milk.svg"
+    },
+    {
+      "key": "drink-cocktails",
+      "name": "Coquetéis",
+      "categoryKey": "drinks",
+      "priceCents": 1500,
+      "offer": false,
+      "image": "product-drink-cocktails.svg"
+    },
+    {
+      "key": "drink-alcoholic",
+      "name": "Bebidas alcoólicas",
+      "categoryKey": "drinks",
+      "priceCents": 5000,
+      "offer": false,
+      "image": "product-drink-alcoholic.svg"
+    },
+    {
+      "key": "drink-energy",
+      "name": "Energético",
+      "categoryKey": "drinks",
+      "priceCents": 900,
+      "offer": false,
+      "image": "product-drink-energy.svg"
+    },
+    {
+      "key": "dessert-cakes",
+      "name": "Bolos",
+      "categoryKey": "desserts",
+      "priceCents": 1500,
+      "offer": false,
+      "image": "product-dessert-cakes.svg"
+    },
+    {
+      "key": "dessert-ice-cream",
+      "name": "Sorvetes",
+      "categoryKey": "desserts",
+      "priceCents": 1590,
+      "offer": false,
+      "image": "product-dessert-ice-cream.svg"
+    },
+    {
+      "key": "dessert-pudding",
+      "name": "Pudins",
+      "categoryKey": "desserts",
+      "priceCents": 900,
+      "offer": false,
+      "image": "product-dessert-pudding.png"
+    },
+    {
+      "key": "dessert-mousse",
+      "name": "Mousses",
+      "categoryKey": "desserts",
+      "priceCents": 1490,
+      "offer": false,
+      "image": "product-dessert-mousse.svg"
+    },
+    {
+      "key": "dessert-gelatin",
+      "name": "Gelatinas",
+      "categoryKey": "desserts",
+      "priceCents": 500,
+      "offer": false,
+      "image": "product-dessert-gelatin.png"
+    },
+    {
+      "key": "dessert-pies",
+      "name": "Tortas",
+      "categoryKey": "desserts",
+      "priceCents": 2390,
+      "offer": false,
+      "image": "product-dessert-pies.svg"
+    },
+    {
+      "key": "dessert-traditional",
+      "name": "Doces Tradicionais",
+      "categoryKey": "desserts",
+      "priceCents": 490,
+      "offer": false,
+      "image": "product-dessert-traditional.png"
+    },
+    {
+      "key": "dessert-pave",
+      "name": "Pavês",
+      "categoryKey": "desserts",
+      "priceCents": 1590,
+      "offer": false,
+      "image": "product-dessert-pave.png"
+    },
+    {
+      "key": "dessert-cheesecake",
+      "name": "Cheesecake",
+      "categoryKey": "desserts",
+      "priceCents": 2590,
+      "offer": false,
+      "image": "product-dessert-cheesecake.png"
+    },
+    {
+      "key": "starter-salad",
+      "name": "Saladas",
+      "categoryKey": "starters",
+      "priceCents": 900,
+      "offer": false,
+      "image": "product-starter-salad.png"
+    },
+    {
+      "key": "starter-bruschetta",
+      "name": "Bruschettas",
+      "categoryKey": "starters",
+      "priceCents": 3500,
+      "offer": false,
+      "image": "product-starter-bruschetta.png"
+    },
+    {
+      "key": "starter-carpaccio",
+      "name": "Carpaccios",
+      "categoryKey": "starters",
+      "priceCents": 3990,
+      "offer": false,
+      "image": "product-starter-carpaccio.png"
+    },
+    {
+      "key": "starter-ceviche",
+      "name": "Ceviches",
+      "categoryKey": "starters",
+      "priceCents": 4500,
+      "offer": false,
+      "image": "product-starter-ceviche.png"
+    },
+    {
+      "key": "starter-cheese-board",
+      "name": "Tábua de Queijos e Frios",
+      "categoryKey": "starters",
+      "priceCents": 6990,
+      "offer": false,
+      "image": "product-starter-cheese-board.png"
+    },
+    {
+      "key": "starter-croquettes",
+      "name": "Croquetes",
+      "categoryKey": "starters",
+      "priceCents": 2390,
+      "offer": false,
+      "image": "product-starter-croquettes.png"
+    },
+    {
+      "key": "starter-pastries",
+      "name": "Pastéis",
+      "categoryKey": "starters",
+      "priceCents": 3590,
+      "offer": false,
+      "image": "product-starter-pastries.svg"
+    },
+    {
+      "key": "starter-tartines",
+      "name": "Tartines",
+      "categoryKey": "starters",
+      "priceCents": 2590,
+      "offer": false,
+      "image": "product-starter-tartines.svg"
+    },
+    {
+      "key": "starter-cod-fritters",
+      "name": "Bolinhos de Bacalhau",
+      "categoryKey": "starters",
+      "priceCents": 4500,
+      "offer": false,
+      "image": "product-starter-cod-fritters.png"
+    }
+  ]
+}

@@ -6,6 +6,8 @@ As telas do cardápio e do [checkout demonstrativo](frontend/docs/CHECKOUT.md) p
 
 O [painel administrativo](frontend/docs/ADMIN.md) usa a API: login de administrador abre pedidos; clientes entram na home. Inclui alteração de status e CRUD de produtos com imagem, categoria e oferta. Aplique a nova migration de preços antes de usar o CRUD.
 
+Para preencher o painel com os **40 produtos e 4 categorias** da vitrine, aplique as migrations e execute `npm run seed:catalog` na pasta `backend`. A [importação do catálogo](backend/catalog/README.md) inclui imagens e ofertas e preserva alterações quando executada novamente.
+
 ## Autenticacao
 
 - Cadastro: `POST /users` (tela `/register`).

@@ -26,7 +26,7 @@ Estados aceitos: Pedido realizado, Em preparação, Pronto, A caminho e Entregue
 
 Uploads de produtos aceitam PNG, JPEG e WebP, até 5 MB. A API verifica extensão, MIME e assinatura do arquivo. No cadastro a imagem é obrigatória; na edição, a foto atual é preservada sem novo arquivo. A exclusão remove o produto do catálogo do banco, preservando os snapshots e imagens de pedidos anteriores.
 
-As categorias do seletor vêm de GET /categories e precisam existir no banco. Não são substituídas por IDs fictícios do cardápio demonstrativo.
+As categorias do seletor vêm de GET /categories e precisam existir no banco. Para cadastrar as quatro categorias e os 40 produtos da home e dos cardápios, aplique as migrations e execute `npm run seed:catalog` na pasta `backend`. Veja as [instruções da importação](../../backend/catalog/README.md). Os IDs são atribuídos pelo banco e as categorias importadas ficam disponíveis no seletor.
 
 ## Atualização do banco
 
@@ -49,7 +49,7 @@ O proxy /api encaminha as chamadas e as imagens /api/product-file ao backend na 
 
 ## Relação com as telas demonstrativas
 
-A home, os cardápios por categoria e o checkout continuam usando o catálogo demonstrativo local. Os produtos administrados aqui são os produtos da API. A publicação desse catálogo na vitrine e o envio de pedidos reais pelo checkout serão uma integração separada.
+A home, os cardápios por categoria e o checkout continuam usando o catálogo demonstrativo local. A importação cria registros equivalentes na API para administração, mas não sincroniza as alterações de volta para a vitrine. A publicação do catálogo da API na vitrine e o envio de pedidos reais pelo checkout serão uma integração separada.
 
 A tela de pedidos mostra somente pedidos já recebidos pela API. Concluir o checkout demonstrativo não cria pedidos no PostgreSQL.
 

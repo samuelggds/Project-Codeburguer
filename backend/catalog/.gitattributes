@@ -1,0 +1,4 @@
+# Manifest validation and asset hashes must be identical on Windows and Unix.
+catalog.json text eol=lf
+images/*.svg text eol=lf
+images/*.png binary
